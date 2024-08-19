@@ -1,0 +1,132 @@
+{% include 'base/layout.html' %}
+{% comment %} {% include 'base/albums.html' %} {% endcomment %}
+{% block body %}
+<style>
+    .ornek-eleman {
+        margin-bottom: 100px;
+    }
+</style>
+<div class="container mb-5 ornek-eleman">
+  
+{% if messages %}
+<div class="alert alert-danger  alert-dismissible fade show text-center" role="alert">
+  {% for message in messages %}
+  <strong {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</strong>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  {% endfor %}
+</div>
+{% endif %}
+ 
+<div class="row">
+    <div class="col-sm-6 mb-3 mb-sm-0">
+      <div class="card shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+        <div class="card-body">
+          <h5 class="card-title text-center">SINAV</h5>
+          <p class="card-text">"Online sınav sistemimiz, öğrencilere SINAV sürecini etkili bir şekilde yönetme ve değerlendirme olanağı sunmaktadır."</p>
+          <div class="d-grid gap-1">
+
+          <a href="{% url "testing_and_exam:exam_" %}" class="btn btn-block btn-primary  "><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-return-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5"/>
+          </svg></a>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 mb-3 mb-sm-0">
+      <div class="card shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+        <div class="card-body">
+          <h5 class="card-title text-center">DENEME</h5>
+          <p class="card-text">
+            "Online sınav sistemimiz, öğrencilere SINAV sürecini etkili bir şekilde yönetme ve değerlendirme olanağı sunmaktadır."</p>
+            <div class="d-grid gap-1">
+
+          <a href="{% url "testing_and_exam:testing" %}"  class="btn btn-block btn-primary "><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-return-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5"/>
+          </svg></a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row mt-3 ">
+    <div class="col-sm-6 mb-3 mb-sm-0">
+      <div class="card  shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+        <div class="card-body">
+          <h5 class="card-title text-center">TYT</h5>
+          <p class="card-text">"Online sınav sistemimiz, öğrencilere SINAV sürecini etkili bir şekilde yönetme ve değerlendirme olanağı sunmaktadır."</p>
+          <div class="d-grid gap-1">
+
+          <a href="{% url "testing_and_exam:tyt" %}" class="btn btn-block btn-primary "><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-return-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5"/>
+          </svg></a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 mb-3 mb-sm-0">
+      <div class="card  shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+        <div class="card-body">
+          <h5 class="card-title text-center">AYT</h5>
+          <p class="card-text">
+            "Online sınav sistemimiz, öğrencilere SINAV sürecini etkili bir şekilde yönetme ve değerlendirme olanağı sunmaktadır."</p>
+            <div class="d-grid gap-1">
+
+          <a href="{% url "testing_and_exam:ayt" %}"  class="btn btn-block btn-primary "><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-return-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5"/>
+          </svg></a>
+        </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% comment " kpss ve ales" %}
+
+  <div class="row mt-3 ">
+    <div class="col-sm-6 mb-3 mb-sm-0">
+      <div class="card  shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+        <div class="card-body">
+          <h5 class="card-title text-center">KPSS</h5>
+          <p class="card-text">"Online sınav sistemimiz, öğrencilere SINAV sürecini etkili bir şekilde yönetme ve değerlendirme olanağı sunmaktadır."</p>
+          <div class="d-grid gap-1">
+
+          <a href="{% url "testing_and_exam:kpss" %}" class="btn btn-block btn-primary "><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-return-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5"/>
+          </svg></a>
+        </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 mb-3 mb-sm-0">
+      <div class="card  shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+        <div class="card-body">
+          <h5 class="card-title text-center">ALES</h5>
+          <p class="card-text">
+            "Online sınav sistemimiz, öğrencilere SINAV sürecini etkili bir şekilde yönetme ve değerlendirme olanağı sunmaktadır."</p>
+            <div class="d-grid gap-1">
+          <a href="{% url "testing_and_exam:ayt" %}"  class="btn btn-block btn-primary "><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-return-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5"/>
+          </svg></a>
+          </div>
+
+        </div>
+      </div>
+
+{% endcomment %}
+
+    </div>
+  </div>
+
+</div>
+<div class="ornek-eleman">
+  </div>
+
+{% endblock body %}
+{% include 'base/footer.html' %}

@@ -1,0 +1,154 @@
+{% include 'base/layout.html' %}
+{% comment %} {% include 'base/albums.html' %} {% endcomment %}
+{% block body %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h5 class="font-monospace text-center">DENEME LİSTESİ</h5>
+
+
+</div>
+</div>
+</div>
+
+<div class="container  shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+  <form method="post" action="{% url 'testing_and_exam:testing' %}">
+    {% csrf_token %}  
+      <div class="row">
+        <div class="col-md-6 col-lg-6 mb-3">
+          <h5 class="text-center">Sınıf Seçiniz</h5>
+    
+      <select class="form-select form-select-lg text-center"  name="sinif">
+        {% for sinif in class_choice %}
+        <option value="{{sinif}}">{{sinif}}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-md-6 col-lg-6 mb-3">
+      <h5 class="text-center">Ders Seçiniz</h5>
+      <select class="form-select form-select-lg text-center" name="ders">
+        {% for ders in Lessons_choice %}
+        <option value="{{ders}}">{{ders}}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+
+      <button type="submit" class="btn btn-primary btn-lg">Sonuçları Göster</button>
+  </form>
+  <hr class="mt-4">
+
+  <div class="table-responsive container">
+    <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Eklenme Tarihi</th>
+        <th scope="col">Test Adı</th>
+        <th scope="col">Yükleyen</th>
+        <th scope="col">Soru Sayısı</th>
+        <th scope="col">İstatistik</th>
+      </tr>
+    </thead>
+    <tbody>
+  
+{% if first_testing %}
+{% for test in first_testing %}
+          <tr>
+              <th scope="row">{{ test.Created_Date }}</th>
+              <td>
+
+                {% if sinavi_goster == True %}
+                <a href="#" class="link-underline-danger" disabled>
+                  <h6>{{  test.Testing_Name }} <span class="badge text-bg-danger">çözüldü</span></h6>
+                </a>
+                {% else %}
+                <a href="{% url "testing_and_exam:show_testing" test.Testing_Name  %}" class="link-underline-success">
+                  <h6>{{ test.Testing_Name }} <span class="badge text-bg-success">çözülmedi</span></h6>
+                </a>
+                {% endif %}
+              </td>
+              <td><a href="#" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">{{ test.author }}</a></td>
+              <td>{{ cnt }}</td>
+              <td>
+                  <a tabindex="0" class="btn btn-sm btn-danger popover-dismiss show-exam-rating" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true" name="{{test.Testing_Name}}"  title="{{test.Testing_Name}}" data-bs-content='<strong name="rating">SINAV PUANI: <span class="exam-rating-placeholder">-</span></strong><br><em>Sıralaman:12</em><br><p>Baraj Altı:İyi</p>'>Göster</a>
+              </td>
+          </tr>
+      {% endfor %}
+  {% else %}
+      <tr>
+          <td colspan="5" class="text-bg-danger text-center">
+              <p>Seçilen kriterlere uygun deneme bulunamadı.</p>
+          </td>
+      </tr>
+  {% endif %}
+  
+  
+    </tbody>
+  </table>
+</div>
+
+</div>
+
+
+</div>
+
+<br>
+<br>
+<br>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      var popoverTriggerList = [].slice.call(document.querySelectorAll('.popover-dismiss'))
+      var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+          return new bootstrap.Popover(popoverTriggerEl, {
+              trigger: 'focus'
+          })
+      })
+  })
+</script>
+
+<script>
+  $(document).ready(function(){
+    $('.show-exam-rating').click(function(e){
+        e.preventDefault();
+        var Testing_Name = $(this).attr('name');
+        var csrftoken = $("[name=csrfmiddlewaretoken]").val();  // Get the CSRF token from the cookie
+        $.ajax({
+            type: 'POST',
+            url: '{% url "testing_and_exam:show_testing_istatistic" %}',
+            data: {
+                'csrfmiddlewaretoken': csrftoken,  // Include the CSRF token in the request data
+                'Testing_Name': Testing_Name
+            },
+            dataType: 'json',
+            success: function(response){
+                $('.exam-rating-placeholder').text(response.exam_rating);
+            },
+            error: function(response){
+                console.log('Error:', response);
+            }
+        });
+    });
+});
+
+  </script>
+
+
+
+  <style>
+    /* CSS ile buton özelleştirmesi */
+    .popover-dismiss {
+        background-color: #17a2b8; /* Arka plan rengi */
+        color: #fff; /* Metin rengi */
+        border-color: #17a2b8; /* Kenarlık rengi */
+        border-radius: 10px; /* Kenarlık yuvarlaklığı */
+        padding: 10px 20px; /* İç boşluklar */
+    }
+    .popover-header {
+        text-align: center;
+    }
+    </style>
+  
+  {% endblock body %}
+{% include 'base/footer.html' %}

@@ -1,0 +1,145 @@
+{% include 'base/layout.html' %}
+{% comment %} {% include 'base/albums.html' %} {% endcomment %}
+{% block body %}
+
+
+{% comment %} 
+<div class="profile-content container">
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="tab-content p-0">
+                <div class="tab-pane fade active show" id="profile-followers">
+                    <div class="list-group">
+
+                        {% if all_profiles %}
+                        {% for profile in all_profiles %}
+
+                        &nbsp;
+
+                        <div class="list-group-item d-flex align-items-center bg-light">
+                            <img src="{{ profile.avatars.url }}" alt="" width="50px" class="rounded-sm ml-n2" /> {% endcomment %}
+                            {% comment %} <img src="{{ profile.avatars.url }}" alt="" width="50px" class="rounded-circle img-fluid avatar-md img-thumbnail bg-transparent" /> {% endcomment %}
+
+                            {% comment %} &nbsp;&nbsp;&nbsp;
+                            <div class="flex-fill pl-3 pr-3">
+                                <div><a href="#" class="text-dark font-weight-600">{{ profile.get_full_name }}</a></div>
+                                <div class="text-muted fs-13px">{{ profile.lessons.all }}|{{ profile.classrooms.all }}</div>
+                              
+                                <ul>
+                                    {% for school in profile.schools.all %}
+                                        <li>{{ school }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+
+                            <a href="#" class="btn btn-outline-primary">Görüntüle</a>
+                        </div>
+
+                        {% endfor %}
+                    {% endif %}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                    <div class="text-center p-3">
+                        <a href="#" class="text-dark text-decoration-none">Show more <b class="caret"></b></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  </div> {% endcomment %}
+
+
+
+
+  
+
+<div class="profile-content container shadow-sm p-1 bg-body-tertiary rounded">
+  <table class="table align-middle mb-0 bg-white">
+    <thead class="bg-light">
+      <tr>
+        <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;İsim-Soyisim</th>
+        <th>Görüntüle</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if all_profiles %}
+        {% for profile in all_profiles %}
+          <tr>
+            <td>
+              <div class="d-flex align-items-center">
+                <img src="{{ profile.avatars.url }}" alt="{{ profile.get_full_name }}" style="width: 45px; height: 45px" class="rounded-circle">
+                <div class="ms-3">
+                  <p class="fw-bold mb-1">{{ profile.get_full_name }}</p>
+                  <p class="text-muted mb-0">{{ profile.email }}</p>
+                </div>
+              </div>
+            </td>
+            <td>
+              <button type="button" class="btn btn-link btn-sm btn-rounded">
+                GÖRÜNTÜLE
+              </button>
+            </td>
+          </tr>
+        {% endfor %}
+      {% else %}
+        <tr>
+          <td colspan="2" class="text-center">Herhangi bir profil bulunamadı.</td>
+        </tr>
+      {% endif %}
+      
+    </tbody>
+  </table>
+  <div class="container mt-2">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+</div>
+
+  
+  
+
+  <br>
+  <br>
+  <br>
+  <br>
+
+  
+{% comment %} ---------------------------------------
+        
+  {% if all_profiles %}
+  {% for profile in all_profiles %}
+  <div>
+      <p>User: {{ profile.username }}</p>
+      <p>User Type: {{ profile.user_type }}</p>
+      <p>Schools:</p>
+      <ul>
+          {% for school in profile.schools.all %}
+              <li>{{ school }}</li>
+          {% endfor %}
+      </ul>
+      <p>Lessons: {{ profile.lessons.all }}</p>
+      <p>Classrooms: {{ profile.classrooms.all }}</p>
+  </div>
+  <hr>
+{% endfor %}
+</div>
+{% endif %} {% endcomment %}
+
+{% endblock body %}
+{% include 'base/footer.html' %}

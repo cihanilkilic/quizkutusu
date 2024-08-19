@@ -1,0 +1,52 @@
+{% include 'base/layout.html' %}
+{% comment %} {% include 'base/albums.html' %} {% endcomment %}
+{% block body %}
+
+
+<div class="container">
+    <!--
+    <h2>Forum Entry</h2>
+
+     -->
+
+{% if messages %}
+    {% for message in messages %}
+        <div {% if message.tags %} class="alert alert-{{ message.tags }} text-center border-0" role="alert" {% endif %}>
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+
+    <form class="shadow p-3 mb-5 bg-body-tertiary rounded" enctype="multipart/form-data"  method="post" action="{% url 'forum:forum_create' %}">
+      {% csrf_token %}
+      <div class="form-group">
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupSelect01">Konular:</label>
+            <select class="form-select text-center" id="inputGroupSelect01" name="topic_type">
+              {% for topic in forum_topics %}
+              <option value="{{topic}}">{{topic}}</option>
+              {% endfor %}
+            </select>
+          </div>
+      </div>
+      <div class="form-group">
+        <div class="form-floating">
+            <textarea class="form-control" style=" height: 300px;" name="text"  id="floatingTextarea"></textarea>
+            <label for="floatingTextarea">Düşünceni yaz...</label>
+          </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group mb-3 mt-3">
+            <label class="input-group-text" for="inputGroupFile01">Resim</label>
+            <input type="file" name="forum_image" class="form-control" id="inputGroupFile01">
+          </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Paylaş</button>
+    </form>
+  </div>
+
+<br><br><br><br>
+
+{% endblock body %}
+{% include 'base/footer.html' %}

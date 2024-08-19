@@ -1,0 +1,478 @@
+{% include 'base/layout.html' %}
+{% comment %} {% include 'base/albums.html' %} {% endcomment %}
+{% block body %}
+
+
+<!-- SORU DETAY BAŞLANGIÇ -->
+  <div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 shadow p-3 mb-5 bg-body-tertiary rounded-start">
+          {% if detail.Question_Image %}
+            <img id="Question_Image" name="Question_Image" src="{{ detail.Question_Image.url }}" class="img-fluid rounded mb-4" alt="Product Image">
+            {% else %}
+            <svg class="object-fit-cover border rounded" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Resim Bulunamadı</title><rect width="100%" height="100%" fill="#55595c"/><text x="40%" y="50%" fill="#eceeef" dy=".3em">Resim Yok</text></svg>
+  
+            {% endif %}
+        </div>
+        
+        <div class="col-md-6 shadow p-3 mb-5 bg-body-tertiary rounded-end">
+
+
+          
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">{{ detail.Lessons}}</a></li>
+              <li class="breadcrumb-item"><a href="#">{{ detail.Topics_Name}}</a></li>
+              <li class="breadcrumb-item active" aria-current="page">{{ detail.Level}}</li>
+            </ol>
+          </nav>
+
+            {% comment %} <p class="lead">Answer the following question:</p> {% endcomment %}
+            <h3 class="mb-4" style="word-wrap:break-word;">{{ detail.Question}}</h3>
+
+
+
+            <div class="btn-group-vertical container" role="group" aria-label="Vertical radio toggle button group">
+            <!-- Çoktan Seçmeli Başlangıç -->
+              {% if detail.Question_Types == "Çoktan Seçmeli" %}
+              {% if detail.Choice_A %}
+              <div class="mb-2">
+                <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1" autocomplete="off" checked>
+                <label class="btn btn-outline-success" for="vbtn-radio1">A</label>
+                <span>{{ detail.Choice_A }}</span>
+              </div>
+              {% endif %}
+
+              {% if detail.Choice_B %}
+              <div class="mb-2">
+                <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2" autocomplete="off">
+                <label class="btn btn-outline-success" for="vbtn-radio2">B</label>
+                <span>{{ detail.Choice_B }}</span>
+              </div>
+              {% endif %}
+
+              {% if detail.Choice_C %}
+              <div class="mb-2">
+                <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3" autocomplete="off">
+                <label class="btn btn-outline-success" for="vbtn-radio3">C</label>
+                <span>{{ detail.Choice_C }}</span>
+              </div>
+              {% endif %}
+
+              {% if detail.Choice_D %}
+              <div class="mb-2">
+                <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio4" autocomplete="off">
+                <label class="btn btn-outline-success" for="vbtn-radio4">D</label>
+                <span>{{ detail.Choice_D }}</span>
+              </div>
+              {% endif %}
+
+              {% if detail.Choice_E %}
+              <div class="mb-2">
+                <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio5" autocomplete="off">
+                <label class="btn btn-outline-success" for="vbtn-radio5">E</label>
+                <span>{{ detail.Choice_E }}</span>
+              </div>
+              {% endif %}
+            </div>
+            
+            {% else %}
+
+            {% endif %}
+            <!-- Çoktan Seçmeli Bitiş -->
+
+
+
+
+            <!-- Doğru/Yanlış Başlangıç -->
+            {% if detail.Question_Types == "Doğru/Yanlış" %}
+
+          <div class="btn-group container " role="group" aria-label="Basic radio toggle button group" >
+            <div class="flex-grow-1" style="margin-right:3px">
+              <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio6" autocomplete="off">
+              <label class="btn btn-outline-primary w-100" for="vbtn-radio6">D</label>
+            </div>
+            <div class="flex-grow-1">
+              <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio7" autocomplete="off">
+              <label class="btn btn-outline-primary w-100" for="vbtn-radio7">Y</label>
+            </div>
+          </div>
+            
+            {% else %}
+
+            {% endif %}
+            <!-- Doğru/Yanlış Bitiş -->
+
+
+
+            <!-- Boşluk Doldurma Başlangıç -->
+            {% if detail.Question_Types == "Boşluk Doldurma" %}
+
+            <p class="lh-sm  border-bottom">{{detail.Answer}}</p>
+            
+            {% else %}
+
+            {% endif %}
+            <!-- Boşluk Doldurma Bitiş -->
+
+
+            <!-- Klasik Başlangıç -->
+            {% if detail.Question_Types == "Klasik" %}
+
+            <p class="lh-sm  border-bottom">{{detail.Answer}}</p>
+            
+            {% else %}
+
+            {% endif %}
+            <!-- Klasik Bitiş -->
+
+
+
+
+            <!-- Eşleştirme Başlangıç -->
+            {% if detail.Question_Types == "Eşleştirme" %}
+
+            <div class="container text-center  border-bottom">
+              <div class="row">
+                <div class="col">
+                {{detail.Cell_1}}
+                </div>
+                <div class="col">
+                  {{detail.Cell_2}}
+                </div>
+
+              </div>
+            </div>
+            {% else %}
+
+            {% endif %}
+            <!-- Eşleştirme Bitiş -->
+
+
+            <!-- Correct Answer -->
+            <hr>
+            
+            <div class="d-flex justify-content-start">
+              {% comment %} <div class="mr-3">
+                <p class="mb-1 mt-4 h5"></p>
+                <p class="small text-muted-info mb-0">Soruyu yazan</p>
+              </div> {% endcomment %}
+              <div class="px-3">
+                <p class="mb-1 h5 mt-4"></p>
+                <p class="small text-muted mb-0 text-uppercase"><a class="small text-decoration-none" href="{% url "user:User_Profil" detail.author_id %}">{{detail.author.first_name}} {{detail.author.last_name}}</a></p>
+              </div>
+              <div class="px-3">
+                <p class="mb-1 h5 mt-4"></p>
+                <p class="small text-muted-info mb-0"><a class="small text-decoration-none saveButton" href="" data-user-id="{{detail.id}}">Soru Sepetine Ekle</a></p>
+              </div>
+              <div class="px-3 mb-2">
+                <p class="mb-1 h5 mt-4"></p>
+                <p class="small text-muted-info mb-0"><a class="small text-decoration-none" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap" href="#!">{{detail.Created_Date|date:"d.m.Y"}}</a></p>
+              </div>
+              <div class="px-3 mb-2">
+                <p class="mb-1 h5 mt-4"></p>
+                <p class="small text-muted-success mb-0"><a class="small text-decoration-none" id="btnanswer"  data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap" href="#!">Cevabı Göster</a><a class="small text-decoration-none"  data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap" href="#!"><strong id="answer" style="display: none;">Doğru Cevap:{{ detail.Answer}}</strong></a></p>
+              </div>
+              {% if user.is_authenticated %}
+              <div class="px-3 mb-2">
+                <p class="mb-1 h5 mt-4"></p>
+                <button  class="btn btn-success" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" id="like-btn" type="submit"data-questionid="{{ detail.pk }}" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">
+
+              <span class="badge  ml-2 text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+                </svg>
+                </span>
+                <span id="like-count">{{ question.likes.count }}</span> 
+              </button>
+              </div>
+              {% else %}
+             <div class="px-3 mb-2">
+                <p class="mb-1 h5 mt-4"></p>
+                <button  class="btn btn-success" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"  >
+
+              <span class="badge  ml-2 text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+                </svg>
+                </span>
+                <span >{{ like_count }}</span> 
+              </button>
+              </div>
+              
+              {% endif %}
+            
+            </div>
+
+        </div>
+    </div>
+    
+
+</div>
+<!-- SORU DETAY BİTİŞ -->
+
+
+
+
+<!-- DIŞ Yorum kısmı BAŞLaNGIÇ -->
+  <div class="container bg-light">
+    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Yorumlar</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Profile</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Contact</button>
+      </li>
+    </ul>
+    <div class="tab-content" id="pills-tabContent">
+      <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+        
+               <!-- İÇ Yorum kısmı BAşlangıç -->
+
+
+        <div class="container mt-5">
+          <h2 class="text-start mb-4">Yorumlar({{cnt}})</h2>
+        
+          <!-- Comment List -->
+          <ul class="list-group" style="max-height: 500px; overflow-y: auto;">
+            <!-- Comment Item 1 -->
+            {% for comm in comment_content_show %}
+            <li class="list-group-item mb-2">
+              <div class="media">
+
+
+
+                <div class="d-flex align-items-center"> <!-- Flex container -->
+                  {% if comm.author_avatar_url %}
+                  <img src="{{ comm.author_avatar_url }}" class="mr-3 rounded-circle" style="width: 64px; height: 64px;">
+                  {% else %}
+                  <img src="https://i.tmgrup.com.tr/gq/original/17-06/22/user_male_circle_filled1600.png" class="mr-3 rounded-circle" style="width: 64px; height: 64px;">
+                  {% endif %}
+              
+                  <div class="media-body">
+                      <p class="text-uppercase mb-0">
+                          <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{% url "user:User_Profil" comm.comment_author.pk %}">
+                            &nbsp; {{ comm.comment_author.first_name }} {{ comm.comment_author.last_name }}
+                          </a>
+                      </p>
+
+                </div>
+                
+              </div>
+              <div class="d-flex align-items-center"> 
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<p class="mt-0">{{ comm.comment_content }}</p>
+            </div>
+            <div class="d-flex align-items-center"> 
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<small class="text-muted">{{ comm.created_date }}</small>
+          </div>
+              </div>
+            </li>
+            {% endfor %}
+            <!-- Comment Item 2 -->
+            {% comment %} <li class="list-group-item">
+              <div class="media">
+                <img src="https://st4.depositphotos.com/3538469/23933/v/450/depositphotos_239337978-stock-illustration-user-sign-icon-person-symbol.jpg" class="mr-3 rounded-circle" alt="User 2 Profile Picture" style="width:64px;height:64px;">
+                <div class="media-body">
+                  <h5 class="mt-0">User 2</h5>
+                  <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                  <small class="text-muted">1 week ago</small>
+                </div>
+              </div>
+            </li> {% endcomment %}
+        
+            <!-- Add more comment items as needed -->
+        
+          </ul>
+        
+          <!-- Comment Form -->
+          <div class="mt-4">
+          
+           <!--  <h4 class="text-center mb-4">Add a Comment</h4> -->
+            
+            <form method="post" action="{% url 'question:add_comment' detail.id %}">
+              {% csrf_token %}
+                <!-- 
+              <div class="form-group">
+                  <label for="username" class="sr-only">Your Name</label>
+                <input type="text" class="form-control" id="username" placeholder="Your Name">
+              </div>
+              -->
+              <div class="form-group mb-1">
+                  <!-- 
+                <label for="comment" class="sr-only">Your Comment</label>
+                  -->
+                <textarea class="form-control" name="comment_content" rows="3" placeholder="Yorum Ekle..."></textarea>
+              </div>
+              <div class="d-flex justify-content-center mt-1">
+                <button type="submit" class="btn btn-primary btn-block  btn-lg">Gönder</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        
+               <!--  İÇ Yorum kısmı Bitiş -->
+
+
+      </div>
+      <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+        This is some placeholder content the Profile tab's associated content. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling. You can use it with tabs, pills, and any other .nav-powered navigation.
+        This is some placeholder content the Profile tab's associated content. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling. You can use it with tabs, pills, and any other .nav-powered navigation.
+      </div>
+      <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+        This is some placeholder content the Contact tab's associated content. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling. You can use it with tabs, pills, and any other .nav-powered navigation.
+        This is some placeholder content the Contact tab's associated content. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling. You can use it with tabs, pills, and any other .nav-powered navigation.
+      </div>
+    </div>
+      </div>
+               <!-- DIŞ Yorum kısmı Bitiş -->
+
+  {% endblock body %}
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function(){
+      // Sayfa yüklendiğinde beğeni sayısını al
+      var question_id = $('#like-btn').data('questionid');
+      $.ajax({
+          type: 'GET',
+          url: '{% url "question:get_like_count" %}',
+          data: {
+              'question_id': question_id
+          },
+          dataType: 'json',
+          success: function(response){
+              $('#like-count').text(response.like_count);
+          },
+          error: function(response){
+              console.log('Hata:', response.responseText);
+          }
+      });
+  
+      // Beğen butonuna tıklanınca
+      $('#like-btn').click(function(){
+          var question_id = $(this).data('questionid');
+          $.ajax({
+              type: 'POST',
+              url: '{% url "question:like_question" %}',
+              data: {
+                  'question_id': question_id,
+                  'csrfmiddlewaretoken': '{{ csrf_token }}'
+              },
+              dataType: 'json',
+              success: function(response){
+                  if(response.liked){
+                      console.log('Soru beğenildi.');
+                  } else {
+                      console.log('Soru beğenisi geri alındı.');
+                      
+                  }
+                  $('#like-count').text(response.like_count);
+              },
+              error: function(response){
+                  console.log('Hata:', response.responseText);
+              }
+          });
+          // Like-count yazısını güncelle (istek gönderildiğinde)
+          $('#like-count').text(parseInt($('#like-count').text()) + 1);
+      });
+  });
+  
+  /////////////////////////////////////////////////////////////////////////////////////
+$(document).ready(function() {
+      $("#btnanswer").click(function(){
+        $(this).hide();
+                
+        // answer'ın görünürlüğünü değiştir
+        $('#answer').show();
+   });
+  $('.saveButton').click(function(event) {
+    event.preventDefault();
+    var userId = $(this).data('user-id');
+    var csrfToken = '{{ csrf_token }}';  // Ensure csrf_token is correctly generated
+
+    $.ajax({
+      url: '{% url 'cart:cart_add' %}',
+      method: 'POST',
+      data: {
+        'user_id': userId,
+        'csrfmiddlewaretoken': csrfToken
+      },
+      success: function(data) {
+        if (data.success) {
+          var message = '' + data.success + ',' + data.Topics_Name + ',' + data.Level + ' başarıyla sepete eklendi ';
+          displayAlertPopup(message);
+        } else {
+          alert('Eklenemedi');
+        }
+      }
+      
+    });
+    function displayAlertPopup(message) {
+      // Create a custom alert popup
+      var popup = $('<div class="custom-popup bg-success text-white text-uppercase">' + message + '<i class="bi bi-check2-circle"></i></div>');
+      
+      // Append the popup to the body
+      $('body').append(popup);
+      
+      // Display the popup
+      popup.fadeIn();
+      
+      // Hide the popup after 2 seconds (you can adjust the duration)
+      setTimeout(function() {
+        popup.fadeOut(function() {
+          // Remove the popup from the DOM after fading out
+          $(this).remove();
+        });
+      }, 2000);
+    }
+    
+  });
+});
+
+  
+    </script>
+    <style>
+      .custom-popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #f9f9f9;
+        color: #333;
+        padding: 20px;
+        border: 1px solid #ccc;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        max-width: 300px;
+        text-align: center;
+        font-size: 16px;
+        font-family: Arial, sans-serif;
+      }
+      
+      .custom-popup button {
+        display: block;
+        margin-top: 15px;
+        padding: 10px 20px;
+        background-color: #3498db;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        font-family: Arial, sans-serif;
+      }
+      
+      .custom-popup button:hover {
+        background-color: #2980b9;
+      }
+      
+    </style>
+{% include 'base/footer.html' %}

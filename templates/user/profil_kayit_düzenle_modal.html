@@ -1,0 +1,95 @@
+{% load static %}
+
+<div class="modal-body">
+    <form  method="post" action="{% url 'user:User_Info_Update' request.user.pk %}" enctype="multipart/form-data">
+      {% comment %} <form  method="post" action="{% url 'user:User_Info_Update' request.user.id %}"  enctype="multipart/form-data"> {% endcomment %}
+       {% csrf_token %}
+          <!-- formFile -->
+          <div class="row">
+            <div class="col-md-12 mb-4">
+              <!-- avatar -->
+              <div class="input-group mb-3">
+                <label class="input-group-text" for="inputGroupFile02">Profil Resmi</label>
+                <input type="file" class="form-control" name="avatars" id="inputGroupFile02">
+              </div>
+              <!--avatar -->
+
+            </div>
+ 
+          </div>
+          <!-- formFile -->
+          
+<!--  Sosyal medya  başlangç-->
+<div class="row">
+
+  <div class="col-md-3 mb-4 col-3">
+    <div class="form-outline">
+      <input type="text" placeholder="İnstagram" class="form-control" name="social_media_instagram">
+    </div>
+  </div>
+
+  <div class="col-md-3 mb-4 col-3">
+    <div class="form-outline">
+      <input type="text" placeholder="Twitter" class="form-control" name="social_media_twitter">
+      <!--  <label class="form-label" for="form3Example2">Last name</label>-->
+    </div>
+  </div>
+
+    <div class="col-md-3 mb-4 col-3">
+    <div class="form-outline">
+      <input type="text" placeholder="Tiktok" class="form-control" name="social_media_tiktok">
+      <!--  <label class="form-label" for="form3Example2">Last name</label>-->
+    </div>
+  </div>
+
+
+    <div class="col-md-3 mb-4 col-3">
+    <div class="form-outline">
+      <input type="text" placeholder="Facebook" class="form-control" name="social_media_facebook">
+      <!--  <label class="form-label" for="form3Example2">Last name</label>-->
+    </div>
+  </div>
+
+</div>
+<!--  Sosyal medya  Bitiş-->
+          <!-- Telefon Numarası -->
+          <div class="row">
+            <div class="col-md-6 mb-4">
+              <div class="form-outline">
+            <input  type="tel" placeholder="Cep Numarası" class="form-control" name="mobile_phone">
+              </div>
+            </div>
+            <div class="col-md-6 mb-4">
+              <div class="form-outline">
+                <input type="email" placeholder="Mail Adresi" class="form-control" name="mail_adress">
+              </div>
+            </div>
+          </div>
+    <!-- Telefon Numarası -->
+
+
+          <!-- biography -->
+          <div class="row">
+            <div class="col-md-12 mb-4">
+              <div class="form-outline">
+                <input type="tel" placeholder="Biyografi" name="biographys" class="form-control" >
+              </div>
+            </div>
+          </div>
+          <!-- biography -->
+
+
+    <div class="d-grid gap-3 d-md-flex justify-content-md-center">
+        <button type="submit" class="btn btn-warning d-block ">Bilgilerimi Güncelle</button>
+        <button type="button" class="btn btn-danger d-block " data-bs-dismiss="modal">İptal</button>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    {% comment %} <button type="submit" class="btn btn-primary">
+      GİRİŞ YAP
+    </button> {% endcomment %}
+
+    {% comment %} <a href="{% url 'user:User_Info_Save'  %}" class="btn btn-warning d-block mt-1">Düzenle</a> {% endcomment %}
+
+  </div>

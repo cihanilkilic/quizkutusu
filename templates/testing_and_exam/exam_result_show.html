@@ -1,0 +1,73 @@
+{% include 'base/layout.html' %}
+{% comment %} {% include 'base/albums.html' %} {% endcomment %}
+{% block body %}
+
+<h2 class="card-title text-center">Sınav Sonuçlarım ({{cnt}})</h2>
+<table class="table table-striped table-hover container">
+    <thead>
+        <tr class="text-center">
+            <th scope="col" >Sınav Adı</th>
+            <th scope="col">Sınavı Göster</th>
+            <th scope="col">Alınan Not</th>
+            <th scope="col">Soru Sayısı</th>
+            <th scope="col">Doğru Sayısı</th>
+            <td scope="col">Yanlış Sayısı</td>
+            <td scope="col">Boş Sayısı</td>
+            <th scope="col">İstatistik</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if exam_finif %}
+        {% for exam_finifs in  exam_finif%}
+        <tr class="text-center">
+            <th scope="row" class="text-center">{{exam_finifs.Exam_Name}}</th>
+            <td><p><a class="link-offset-2 link-underline link-underline-opacity-0" href="{% url "testing_and_exam:show_exam_result_details" exam_finifs.Exam_Name %}">Sınava Git</a></p></td>
+            <td class="text-center">{{exam_finifs.Exam_Score}}</td>
+            <td>{{exam_finifs.Total_Number_Of_Questions}}</td>
+            <td class="text-bg-success text-center">{{exam_finifs.Number_Of_True}}</td>
+            <td class="text-bg-danger text-center">{{exam_finifs.Number_Of_False}}</td>
+            <td class="text-bg-secondary text-center">{{exam_finifs.Number_Of_Empty}}</td>
+            <td><a tabindex="0" class="btn btn-sm btn-danger popover-dismiss" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true"  title="{{exam_finifs.Exam_Name}}" data-bs-content='<strong>Toplam Katılım:100</strong><br><em>Sıralaman:12</em><br><p>Başarı Durumu:İyi</p>'>Göster</a></td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        
+        
+        <tr>
+            <td colspan="8" class="text-bg-danger text-center"><p>Herhangi bir sınavıınız yok.</p></td>
+          </tr>
+        {% endif %}
+        {% comment %} <tr>
+            <th scope="row">2</th>
+            <td>Sınava Git</td>
+            <td>Thornton</td>
+            <td>@Göster</td>
+        </tr> {% endcomment %}
+    </tbody>
+</table>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var popoverTriggerList = [].slice.call(document.querySelectorAll('.popover-dismiss'))
+        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+            return new bootstrap.Popover(popoverTriggerEl, {
+                trigger: 'focus'
+            })
+        })
+    })
+</script>
+<style>
+    /* CSS ile buton özelleştirmesi */
+    .popover-dismiss {
+        background-color: #17a2b8; /* Arka plan rengi */
+        color: #fff; /* Metin rengi */
+        border-color: #17a2b8; /* Kenarlık rengi */
+        border-radius: 10px; /* Kenarlık yuvarlaklığı */
+        padding: 10px 20px; /* İç boşluklar */
+    }
+    .popover-header {
+        text-align: center;
+    }
+    </style>
+  {% endblock body %}
+{% include 'base/footer.html' %}

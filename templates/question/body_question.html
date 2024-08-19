@@ -1,0 +1,766 @@
+
+
+
+{% comment %} <ol class="list-group list-group-numbered py-5 container">
+  <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-start">
+    <div class="ms-2 me-auto">
+      <div class="fw-bold">Subheading</div>
+      Content for list item
+    </div>
+    <span class="badge bg-primary rounded-pill">14</span>
+  </li>
+  <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-start">
+    <div class="ms-2 me-auto">
+      <div class="fw-bold">Subheading</div>
+      Content for list item
+    </div>
+    <span class="badge bg-primary rounded-pill">14</span>
+  </li>
+  <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-start">
+    <div class="ms-2 me-auto">
+      <div class="fw-bold">Subheading</div>
+      Content for list item
+    </div>
+    <span class="badge bg-primary rounded-pill">14</span>
+  </li>
+</ol> {% endcomment %}
+
+
+<div class="album py-5 mb-5 bg-light">
+  <div class=" alert alert-info container text-center" role="alert" id="infoAlert" style="display: none;">
+      
+  </div>
+  <div class="container">
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+
+
+      <form id="myForm" class="form form-control mt-3"   enctype="multipart/form-data">
+        {% csrf_token %}
+      <div class="row  row-cols-3 row-cols-md-5 g-2">
+      <div class="col-md ">
+        <h5 class="text-center">Sınıf</h5>
+      <div class="dropdown " >
+      <!-- başlangıç-->
+      <select class="form-select form-select-lg mb-3 text-center" aria-label=".form-select-lg example"  id="Classroom" name="Classroom">
+        <option selected>Seçiniz</option>
+        {%  for classroom_name in RequestUser.classrooms.all %}
+        <option value='{{classroom_name.id}}'>{{classroom_name}}</option>
+        {% endfor %}
+      </select>
+      <!-- Bitiş-->
+      </div>
+      </div>
+      
+      
+        <div class="col-md">
+        <h5 class="text-center">Ders</h5>
+
+      <div class="dropdown" >
+      <!-- başlangıç-->
+      <select class="form-select form-select-lg mb-3 text-center" aria-label=".form-select-lg example"  id="Lessons" name="Lessons" disabled>
+         {%  for lesson in RequestUser.lessons.all %}
+        <option value="{{lesson.id}}" disabled selected>{{lesson}}</option>
+        {% endfor %}
+      </select>
+      <!-- Bitiş-->
+      </div>
+      </div>
+      
+        
+        
+              
+        <div class="col-md">
+        <h5 class="text-center">Konu</h5>
+
+      <div class="dropdown" >
+      
+        <select class="form-select form-select-lg mb-3 text-center" aria-label=".form-select-lg example" id="Topics_Name" name="Topics_Name" disabled>
+         
+          {%  for  item in lesson_topics   %}
+          <option  value="{{item.topic_name}}" disabled selected>{{item.topic_name  }}</option>
+          {% endfor %}
+      
+      
+      
+      
+      
+      
+            
+        </select>
+      
+      
+      </div>
+      
+      </div>
+      
+      
+      
+      <div class="col-md">
+        <h5 class="text-center">Soru Tipi</h5>
+
+        <div class="dropdown" >
+        <!-- başlangıç-->
+        <select class="form-select form-select-lg mb-3 text-center" id="Question_Types" aria-label=".form-select-lg example" name='Question_Types'>
+          {% for questyp in Question_Type %}
+          
+          <option value='{{questyp}}'>{{questyp}} </option>
+          {% endfor %}
+        </select>
+        <!-- Bitiş-->
+        </div>
+        </div>
+      
+      
+      
+        <div class="col-md">
+          <h5 class="text-center">Seviye</h5>
+
+          <div class="dropdown" >
+          <!-- başlangıç-->
+          <select class="form-select form-select-lg mb-3 text-center" id="Level" aria-label=".form-select-lg example" name='Level'>
+            {% for level in Level %}
+            
+            <option value='{{level}}'>{{level}} </option>
+            {% endfor %}
+          </select>
+          <!-- Bitiş-->
+          </div>
+          </div>
+        
+      
+      
+      
+      
+      </div>
+      
+      
+      
+      
+      
+
+      <div class="input-group mb-3" id="Question_Ticket"  style="display:none">
+        <span class="input-group-text" id="basic-addon1">Soru Etiketi</span>
+        <input type="text" class="form-control"  aria-describedby="basic-addon1" name="Question_Ticket" id="Question_Ticket">
+      </div>
+
+
+      <div class="input-group mb-3 ">
+        <span class="input-group-text">Soru</span>
+        <textarea  type="text"  class="form-control" aria-label="With textarea" name="Question" id="Question"></textarea>
+      </div>
+      <div  id="Choice_all">
+
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="inputGroup-sizing-default">A)</span>
+        <input type="text" class="form-control" id="Choice_A"  name="Choice_A" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+      </div>
+
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="inputGroup-sizing-default">B)</span>
+        <input type="text" class="form-control" id="Choice_B"  name="Choice_B" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+      </div>
+
+
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="inputGroup-sizing-default">C)</span>
+        <input type="text" class="form-control" id="Choice_C"  name="Choice_C" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+      </div>
+
+
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="inputGroup-sizing-default">D)</span>
+        <input type="text" class="form-control" id="Choice_D"  name="Choice_D" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+      </div>
+
+
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="inputGroup-sizing-default">E)</span>
+        <input type="text" class="form-control" id="Choice_E"  name="Choice_E" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+      </div>
+    </div>
+
+{% comment %} <h5 class="text-center mt-3" >Cevabı İşaretle</h5>  {% endcomment %}
+      {% comment %} <p class="text-center">Cevabı İşaretle</p> {% endcomment %}
+      <section  id="radioSection">
+        <div>
+          <input type="radio" id="control_01" name="SIK" value="A" checked>
+          <label for="control_01">
+            <h2>A</h2>
+          </label>
+        </div>
+        <div>
+          <input type="radio" id="control_02" name="SIK" value="B" checked>
+          <label for="control_02">
+            <h2>B</h2>
+          </label>
+        </div>
+
+        <div>
+          <input type="radio" id="control_03" name="SIK" value="C" checked>
+          <label for="control_03">
+            <h2>C</h2>
+          </label>
+        </div>
+        <div>
+          <input type="radio" id="control_04" name="SIK" value="D" checked>
+          <label for="control_04">
+            <h2>D</h2>
+          </label>
+        </div>
+
+
+
+        <div>
+          <input type="radio" id="control_05" name="SIK" value="E">
+          <label for="control_05">
+            <h2>E</h2>
+          </label>
+        </div>
+        
+        
+        </section>
+
+
+
+
+      <section  id="doğruyanlis" style="display:none">
+        {% comment %} <h2 class="text-center mt-3" >Cevabı İşaretle</h2>  {% endcomment %}
+      <div>
+        <input type="radio" id="control_06" name="Dogru_Yanlis" value="D" checked>
+        <label for="control_06">
+          <h2>D</h2>
+        </label>
+      </div>
+
+
+
+      <div>
+        <input type="radio" id="control_07" name="Dogru_Yanlis" value="Y">
+        <label for="control_07">
+          <h2>Y</h2>
+        </label>
+      </div>
+      
+      
+      </section>
+
+
+
+
+
+
+      <div class="input-group mb-3 cvp" style="display:none">
+        <span class="input-group-text">Cevap</span>
+        <textarea  type="text" class="form-control" aria-label="With textarea" id="Answer"  name="Answer"></textarea>
+      </div>
+
+        <div id="incrementdecrement" class="container" style="display:none">
+          <table class="table">
+
+            <tbody id="input-container">
+              <!-- Initial input field (disabled) -->
+              <tr>
+                <td>
+              <!-- buraya -->
+                </td>
+              </tr>
+              
+            </tbody>
+          </table>
+      
+          <div class="container ">
+            <div class="row row-cols-6 justify-content-center mb-2">
+              {% comment %} <div class="col"><button onclick="increment()" class="btn btn-primary">+</button></div>
+              <div class="col"><button onclick="decrement()" class="btn btn-danger">-</button></div> {% endcomment %}
+              <div class="col"><a href="#?" onclick="arttir()" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">ARTTIR&nbsp;&nbsp;<i class="bi bi-arrow-up-circle"></i></a></div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <div class="col"><a href="#?" onclick="azalt()"  class="link-danger link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">AZALT&nbsp;&nbsp;<i class="bi bi-arrow-down-circle"></i></a></div>
+
+              {% comment %} <div class="col"><button onclick="arttir()" class="btn btn-primary">ARTTIR&nbsp;<i class="bi bi-arrow-up-circle"></i></button></div>
+              <div class="col"><button onclick="azalt()" class="btn btn-danger">AZALT&nbsp;<i class="bi bi-arrow-down-circle"></i></button></div> {% endcomment %}
+            </div>
+          </div>
+          
+        </div>
+      
+
+    
+        <div class="mb-3">
+          <!-- <label for="formFile" class="form-label">Default file input example</label>-->
+          <input class="form-control form-control-sm" type="file" id="Question_Image" name="Question_Image">
+        </div>
+        <div class="d-grid gap-2">
+          <button class="btn btn-success mb-3" type="submit">Kaydet</button>
+        </div>
+        {% if success %}
+      
+        {% comment %} <div class="alert alert-success alert-dismissible fade show show mt-3" role="alert">
+            <h4 class="text-center">{{success}}!</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div> {% endcomment %}
+          {% include 'base/messages.html' %}
+      
+        {% endif %}
+        
+        {% if error %}
+      
+        <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+            <h4 class="text-center">{{hata}}</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+      
+      
+        {% endif %}
+      
+      </form>
+      
+      
+      
+      <div id="message-container">
+        <!-- Başarı mesajı burada görüntülenecek -->
+    </div>
+      
+        
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</div>
+<style>
+  // The code is a bit of a mess at the moment! Sorry about that.
+  body {
+    padding: 0.5rem;
+    color: hsla(215, 5%, 50%, 1);
+  }
+  
+  h1 {
+    color: hsla(215, 5%, 10%, 1);
+    margin-bottom: 1rem;
+  }
+  
+  section {
+    display: flex;
+    flex-flow: row wrap;
+  }
+  
+  section > div {
+    flex: 1;
+    padding: 0.25rem;
+  }
+  
+  input[type="radio"] {
+    display: none;
+  }
+  
+  input[type="radio"]:not(:disabled) ~ label {
+    cursor: pointer;
+  }
+  
+  input[type="radio"]:disabled ~ label {
+    color: hsla(150, 5%, 75%, 1);
+    border-color: hsla(150, 5%, 75%, 1);
+  }
+  
+  label {
+    height: 100%;
+    display: block;
+    background: white;
+    border: 1px solid hsla(150, 75%, 50%, 1);
+    border-radius: 10px;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+  
+  input[type="radio"]:checked + label {
+    background: hsla(150, 75%, 50%, 1);
+    color: hsla(215, 0%, 100%, 1);
+  }
+  
+  input[type="radio"]#control_05:checked + label {
+    background: red;
+    border-color: red;
+  }
+  
+  p {
+    font-weight: 900;
+  }
+  
+  @media only screen and (max-width: 700px) {
+    section {
+      flex-direction: column;
+    }
+  }
+  
+</style>
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  {% comment %} $(document).ready(function() {
+    $('#classroomSelect').change(function() {
+      var classroomId = $(this).val();
+      var lessonId = $(this).val();
+      if (classroomId) {
+        $.ajax({
+          url: '{% url "question:get_lessons" %}', // Ajax isteğini işleyecek Django view'inin URL'si
+          data: {
+            'classroom_id': classroomId,
+            'lesson_id': lessonId
+          },
+          dataType: 'json',
+          success: function(data) {
+            $('#lessonSelect').html(data.options);
+            $('#lessonSelect').removeAttr('disabled');
+            $('#topicSelect').html(data.topic_options);
+            $('#topicSelect').removeAttr('disabled');
+          }
+        });
+      } else {
+        $('#lessonSelect').html('<option value="" disabled selected>Ders Seçin</option>');
+        $('#lessonSelect').attr('disabled', 'disabled');
+        $('#topicSelect').html('<option value="" disabled selected>Konu Seçin</option>');
+        $('#topicSelect').attr('disabled', 'disabled');
+      }
+    });
+  }); {% endcomment %}
+  $(document).ready(function () {
+    var selectedOption; // Declare selectedOption in a higher scope
+  
+    $("#Question_Types").change(function (event) {
+      var selectedOption = $(this).val();
+  
+      if (selectedOption === "Çoktan Seçmeli") {
+        $("#radioSection").show();
+        $("#Choice_all").show();
+        $(".cvp").hide();
+        $("#doğruyanlis").hide();
+        $("#incrementdecrement").hide();
+
+
+      } else {
+        $("#Choice_all").hide();
+        $("#radioSection").hide();
+        $(".cvp").hide();
+        $("#doğruyanlis").hide();
+        $("#incrementdecrement").hide();
+        $("#Question_Ticket").hide();
+        
+
+      }
+  
+      if (selectedOption === "Boşluk Doldurma") {
+        $("#radioSection").hide();
+        $('input[name="SIK"]').prop('checked', false);
+        $('input[name="Dogru_Yanlis"]').prop('checked', false);
+
+        $(".cvp").show();
+        $("#Question").show();
+        $("#doğruyanlis").hide();
+        
+      }
+      if (selectedOption === "Klasik") {
+        $('input[name="SIK"]').prop('checked', false);
+        $('input[name="Dogru_Yanlis"]').prop('checked', false);
+
+        $("#radioSection").hide();
+        $("#doğruyanlis").hide();
+        $(".cvp").show();
+        $("#Question").show();
+      }
+
+
+      if (selectedOption === "Doğru/Yanlış") {
+        $('input[name="SIK"]').prop('checked', false);
+        $('input[name="Dogru_Yanlis"]').prop('checked', false);
+        
+        $("#radioSection").hide();
+        $("#doğruyanlis").show();
+        $(".cvp").hide();
+        $("#Question").show();
+      }
+
+      if (selectedOption === "Eşleştirme") {
+        $('input[name="SIK"]').prop('checked', false);
+        $('input[name="Dogru_Yanlis"]').prop('checked', false);
+        $("#radioSection").hide();
+        $("#doğruyanlis").hide();
+        $(".cvp").hide();
+        $("#Question").show();
+        $("#incrementdecrement").show();
+        $("#Question_Ticket").show();
+      
+
+      }
+
+
+
+
+
+
+    });
+  
+    // $("#Question").show(); // Remove this line
+  });
+  /*
+  function increment() {
+    var inputContainer = document.getElementById('input-container');
+    var inputElements = inputContainer.getElementsByTagName('tr');
+  
+    if (inputElements.length <= 10) {
+      var newRow = inputContainer.insertRow();
+      var cell = newRow.insertCell(0);
+  
+      var newInput = document.createElement('input');
+      newInput.type = 'text';
+      newInput.value = '';
+      newInput.min = 0;
+      newInput.max = 10;
+  
+      cell.appendChild(newInput);
+    }
+  }
+  
+  function decrement() {
+    var inputContainer = document.getElementById('input-container');
+    var inputElements = inputContainer.getElementsByTagName('tr');
+  
+    if (inputElements.length > 1) {
+      inputContainer.deleteRow(inputContainer.rows.length - 1);
+    }
+  }
+  */
+
+  /*
+  function arttir() {
+    var girisContainer = document.getElementById('input-container');
+    var girisElemanlari = girisContainer.getElementsByTagName('tr');
+  
+    if (girisElemanlari.length <= 10) {
+      var yeniSatir = girisContainer.insertRow();
+  
+      // Inserting the new inputs
+      var hucre1 = yeniSatir.insertCell(0);
+      var hucre2 = yeniSatir.insertCell(1);
+  
+      var yeniGiris1 = document.createElement('input');
+      yeniGiris1.type = 'text';
+      yeniGiris1.value = '';
+      yeniGiris1.min = 0;
+      yeniGiris1.max = 10;
+  
+      var yeniGiris2 = document.createElement('input');
+      yeniGiris2.type = 'text';
+      yeniGiris2.value = '';
+      yeniGiris2.min = 0;
+      yeniGiris2.max = 10;
+  
+      // Hücre numaralarını yazdır
+      hucre1.appendChild(document.createTextNode("Text Before Input 1: " + (hucre1.cellIndex + 1)));
+      hucre2.appendChild(yeniGiris1);
+      hucre2.appendChild(document.createTextNode(" Text Before Input 2: " + (hucre2.cellIndex + 1)));
+      hucre2.appendChild(yeniGiris2);
+    }
+  }
+  
+  
+  function azalt() {
+    var girisContainer = document.getElementById('input-container');
+    var girisElemanlari = girisContainer.getElementsByTagName('tr');
+  
+    if (girisElemanlari.length > 1) {
+      girisContainer.deleteRow(girisContainer.rows.length - 1);
+    }
+  }
+  */
+
+
+
+      function generateUniqueId(baseId, index) {
+      return baseId + '_' + index;
+  }
+
+  function arttir() {
+      var girisContainer = $("#input-container");
+      var girisElemanlari = girisContainer.find('input');
+
+      if (girisElemanlari.length < 10) {
+        var yeniSatir = $("<div>")
+          .addClass("text-center mt-2 mb-2 form-control form-control-sm bg-light rounded border");
+      
+          // Inputlar için unique id oluştur
+          var inputID1 = generateUniqueId('input1', girisElemanlari.length);
+          var inputID2 = generateUniqueId('input2', girisElemanlari.length);
+
+          // Yeni inputları oluştur
+          var yeniGiris1 = $('<input>', {type: 'text', name: 'text_before_input_1', id: inputID1,placeholder: 'SORU'}).addClass('mt-2 mb-2 form-control form-control-sm   rounded border');
+          var yeniGiris2 = $('<input>', {type: 'text', name: 'text_before_input_2', id: inputID2,placeholder: 'CEVAP'}).addClass('mt-2 mb-2 form-control form-control-sm   rounded border');
+          
+          // Hücre numaralarını yazdır
+          yeniSatir.append(" "+"SORU 1: " + (girisElemanlari.length + 1) + " ");
+          yeniSatir.append(yeniGiris1);
+          yeniSatir.append(" "+"CEVAP 2: " + (girisElemanlari.length + 1) + " ");
+          yeniSatir.append(yeniGiris2);
+
+          // Yeni satırı input-container'a ekle
+          girisContainer.append(yeniSatir);
+      }
+  }
+
+  function azalt() {
+      var girisContainer = $("#input-container");
+      var girisElemanlari = girisContainer.find('div');
+
+      if (girisElemanlari.length > 1) {
+          girisElemanlari.last().remove();
+      }
+  }
+
+  $("#myForm").submit(function (event) {
+      event.preventDefault();
+
+      // Serialize form data
+      var formData = new FormData(this);
+
+      // Send Ajax request
+      $.ajax({
+          type: "POST",
+          url: "{% url 'question:article_create' %}",
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function (data) {
+            $('#infoAlert').text("SORUNUZ BAŞARIYLA OLUŞTURULDU." ).show();
+          },
+          error: function (xhr, status, error) {
+              // Handle errors
+              console.error("Error submitting form:", error);
+          },
+      });
+  });
+///////////////////////////////////////////////////////////////////
+  $(document).ready(function () {
+    $('#Classroom').change(function () {
+        var classroom_id = $(this).val();
+      $('#Topics_Name').prop('disabled', true);
+
+        if (classroom_id) {
+            $('#Lessons').prop('disabled', false);
+            $('#Lessons').html('<option value="">Seçiniz</option>');
+            $.ajax({
+              url: '{% url "question:get_lessons" %}', // Django URL
+                type: 'GET',
+                data: {'classroom_id': classroom_id},
+                success: function (data) {
+                    $.each(data, function (key, value) {
+                        $('#Lessons').append('<option value="' + key + '">' + value + '</option>');
+                    });
+                }
+            });
+        } else {
+            $('#Lessons').prop('disabled', true);
+        }
+    });
+
+    // Aynı şekilde, ders seçimi için bir olay işleyici ekleyebilirsiniz.
+    // Konu seçimi için de benzer bir işlem yapabilirsiniz.
+
+
+
+$('#Lessons').change(function () {
+      // Ders değiştiğinde konu seçimini sıfırlayın
+      $('#Topics_Name').prop('disabled', true);
+      $('#Topics_Name').html('<option value="" selected>Seçiniz</option>');
+
+      var lesson_id = $(this).val();
+      if (lesson_id) {
+          $.ajax({
+              url: '{% url "question:get_topics" %}', // Django URL
+              type: 'GET',
+              data: {'lesson_id': lesson_id},
+              success: function (data) {
+                  $.each(data, function (key, value) {
+                      $('#Topics_Name').append('<option value="' + key + '">' + value + '</option>');
+                  });
+                  $('#Topics_Name').prop('disabled', false);
+              }
+          });
+      }
+  });
+
+
+/*
+
+
+  $("#myForm").submit(function(event) {
+    event.preventDefault(); // Prevent page refresh
+
+    var data = $("#myForm").serialize();
+    
+    $.ajax({
+        type: "POST",
+        url: "{% url 'question:article_create' %}",
+        dataType: "json",
+        data: data,
+        success: function(response) {
+            if (response.success) {
+                $('#message-container').html('<p class="success-message">Kayıt başarıyla tamamlandı.</p>');
+                //window.location.href = "{% url 'quizbox:index' %}";
+            } else if (response.error) {
+                $('#message-container').html('<p class="error-message">' + response.error + '</p>');
+            }
+        }
+    });
+});
+
+*/
+
+/*
+
+$("#myForm").submit(function (event) {
+event.preventDefault();
+
+// Serialize form data
+var formData = $(this).serialize();
+
+// Send Ajax request
+$.ajax({
+  type: "POST",
+  url: "{% url 'question:article_create' %}",
+  // Replace 'your_ajax_view_name' with the actual URL name for your Django view
+  data: formData,
+  success: function (data) {
+    // Handle success
+    alert("Form submitted successfully:", data);
+  
+  },
+  error: function (xhr, status, error) {
+    // Handle errors
+    console.error("Error submitting form:", error);
+  },
+});
+});
+*/
+
+});
+
+
+
+
+
+
+  </script>
+  

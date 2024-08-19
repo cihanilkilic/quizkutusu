@@ -1,0 +1,349 @@
+{% include 'base/layout.html' %}
+{% comment %} {% include 'base/albums.html' %} {% endcomment %}
+{% block body %}
+<div class="album py-2 mb-5 bg-light">
+  <div class="container">
+{% for sonuc in exam_results %}
+
+{% comment %} sonuç id değeri=>{{sonuc.Question_Id}}<br> {% endcomment %}
+
+
+{% for soru in get_questions %}
+{% if sonuc.author_Key == soru.Answer_Choice %}{% endif %}
+
+
+
+
+{% comment %} #soruid=>{{soru.pk}}<br> {% endcomment %}
+{% if soru.pk == sonuc.Question_Id %}
+
+
+<div class="row row-cols-1 row-cols-md-2 g-0 mb-3">
+  <div class="col-md-6 container">
+
+    <div class="card ">
+      
+      {% comment %} {{soru.pk}}
+      cevap verilen şık => {{sonuc.author_Key}}<br>
+cevap anahtarı => {{soru.Answer_Choice}} {% endcomment %}
+      {% if soru.Question_Image %}
+      <img src="{{soru.Question_Image.url}}" class="card-img-top " />
+      {% comment %} <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg> {% endcomment %}
+      {% else %}
+      {% comment %} <img src="https://mocra.org/wp-content/uploads/2016/07/default.jpg" class="card-img-top" alt="..."> {% endcomment %}
+<svg class="bd-placeholder-img card-img-top " width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="40%" y="50%" fill="#eceeef" dy=".3em">Resim Yok</text></svg> 
+
+      {% endif %}
+
+<div class="card-body">
+  
+  <p class="card-text">
+    {{ soru.Question}}
+  </p>
+  <div class="btn-group-vertical container"  role="group" aria-label="Vertical radio toggle button group">
+   <!-- ŞIK BAŞLANGIÇ-->
+{% if soru.Choice_A %}
+<div class="mb-2">
+  {% if sonuc.author_Key == "A" %}
+    <label class="btn btn-success" for="{{ soru.id }}">
+      <input type="radio" name="optionsRadios{{ soru.id }}" id="{{ soru.id }}" autocomplete="off" checked>
+       A {% comment %} İşaretlendi {% endcomment %}
+    </label>
+    {% elif soru.Answer_Choice == "A" %}
+    <label class="btn btn-primary" for="{{ soru.id }}">
+      <input type="radio" name="optionsRadios{{ soru.id }}" id="{{ soru.id }}" autocomplete="off" checked>
+      A {% comment %}cevap anahtarı{% endcomment %}
+    </label>
+  {% else %}
+    <label class="btn btn-secondary" for="{{ soru.id }}">
+      <input type="radio" name="optionsRadios{{ soru.id }}" id="{{ soru.id }}" autocomplete="off">
+      A
+    </label>
+  {% endif %}
+  <span>{{ soru.Choice_A }}</span>
+</div>
+{% endif %}
+
+{% if soru.Choice_B %}
+<div class="mb-2">
+  {% if sonuc.author_Key == "B" %}
+    <label class="btn btn-success" for="{{ soru.id }}">
+      <input type="radio" name="optionsRadios{{ soru.id }}" id="{{ soru.id }}" autocomplete="off" checked>
+      B {% comment %}İşaretlendi{% endcomment %}
+    </label>
+
+    {% elif soru.Answer_Choice == "B" %}
+    <label class="btn btn-primary" for="{{ soru.id }}" >
+      <input type="radio" name="optionsRadios{{ soru.id }}" id="{{ soru.id }}" autocomplete="off" checked>
+      B {% comment %}cevap anahtarı{% endcomment %}
+    </label>
+    
+  {% else %}
+    <label class="btn btn-secondary" for="{{ soru.id }}">
+      <input type="radio" name="optionsRadios{{ soru.id }}" id="{{ soru.id }}" autocomplete="off">
+      B
+    </label>
+  {% endif %}
+  <span>{{ soru.Choice_B }}</span>
+</div>
+{% endif %}
+
+{% if soru.Choice_C %}
+<div class="mb-2">
+  {% if sonuc.author_Key == "C" %}
+    <label class="btn btn-success" for="{{ soru.id }}">
+      <input type="radio" name="optionsRadios{{ soru.id }}" id="{{ soru.id }}" autocomplete="off" checked>
+      C {% comment %}İşaretlendi{% endcomment %}
+    </label>
+    {% elif soru.Answer_Choice == "C" %}
+    <label class="btn btn-primary" for="{{ soru.id }}" style="background-color: red;">
+      <input type="radio" name="optionsRadios{{ soru.id }}" id="{{ soru.id }}" autocomplete="off" checked>
+      C {% comment %}cevap anahtarı{% endcomment %}
+    </label>
+  {% else %}
+    <label class="btn btn-secondary" for="{{ soru.id }}">
+      <input type="radio" name="optionsRadios{{ soru.id }}" id="{{ soru.id }}" autocomplete="off">
+      C
+    </label>
+  {% endif %}
+  <span>{{ soru.Choice_C }}</span>
+</div>
+{% endif %}
+
+{% if soru.Choice_D %}
+<div class="mb-2">
+  {% if sonuc.author_Key == "D" %}
+    <label class="btn btn-success" for="{{ soru.id }}">
+      <input type="radio" name="optionsRadios{{ soru.id }}" id="{{ soru.id }}" autocomplete="off" checked>
+      D {% comment %}İşaretlendi{% endcomment %}
+    </label>
+    {% elif soru.Answer_Choice == "D" %}
+    <label class="btn btn-primary" for="{{ soru.id }}" style="background-color: red;">
+      <input type="radio" name="optionsRadios{{ soru.id }}" id="{{ soru.id }}" autocomplete="off" checked>
+      D {% comment %}cevap anahtarı{% endcomment %}
+    </label>
+  {% else %}
+    <label class="btn btn-secondary" for="{{ soru.id }}">
+      <input type="radio" name="optionsRadios{{ soru.id }}" id="{{ soru.id }}" autocomplete="off">
+      D
+    </label>
+  {% endif %}
+  <span>{{ soru.Choice_D }}</span>
+</div>
+{% endif %}
+
+{% if soru.Choice_E %}
+<div class="mb-2">
+  {% if sonuc.author_Key == "E"%}
+    <label class="btn btn-success" for="{{ soru.id }}">
+      <input type="radio" name="optionsRadios{{ soru.id }}" id="{{ soru.id }}" autocomplete="off" checked>
+      E  {% comment %}İşaretlendi{% endcomment %}
+    </label>
+    {% elif soru.Answer_Choice == "E" %}
+    <label class="btn btn-primary" for="{{ soru.id }}" style="background-color: red;">
+      <input type="radio" name="optionsRadios{{ soru.id }}" id="{{ soru.id }}" autocomplete="off" checked>
+      B  {% comment %}cevap anahtarı{% endcomment %}
+    </label>
+  {% else %}
+    <label class="btn btn-secondary" for="{{ soru.id }}">
+      <input type="radio" name="optionsRadios{{ soru.id }}" id="{{ soru.id }}" autocomplete="off">
+      E
+    </label>
+  {% endif %}
+  <span>{{ soru.Choice_E }}</span>
+</div>
+{% endif %}
+
+<div class="mb-2">
+{% if sonuc.author_Key == "N" %}
+  <label class="form-check-label btn btn-danger" for="{{ soru.id }}">
+    <input class="form-check-input" type="radio" name="exampleRadios{{ soru.id }}" id="{{ soru.id }}" value="N" checked>
+    BOŞ BIRAK
+  </label>
+{% endif %}
+</div>
+<!-- ŞIK BİTİŞ-->
+{% if soru.Answer_Choice  == "A" and sonuc.author_Key == "A"%}
+
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle " viewBox="0 0 16 16" style="margin-left: auto;color:green">
+  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+  <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+</svg>
+
+{% elif  soru.Answer_Choice  == "B" and sonuc.author_Key == "B" %}
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle " viewBox="0 0 16 16" style="margin-left: auto;color:green">
+  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+  <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+</svg>
+
+{% elif  soru.Answer_Choice  == "C" and sonuc.author_Key == "C" %}
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle " viewBox="0 0 16 16" style="margin-left: auto;color:green">
+  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+  <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+</svg>
+{% elif  soru.Answer_Choice  == "D" and sonuc.author_Key == "D" %}
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle " viewBox="0 0 16 16" style="margin-left: auto;color:green">
+  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+  <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+</svg>
+{% elif  soru.Answer_Choice  == "E" and sonuc.author_Key == "E" %}
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle " viewBox="0 0 16 16" style="margin-left: auto;color:green">
+  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+  <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+</svg>
+{% else %}
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16" style="margin-left: auto;color:red">
+  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+</svg>
+{% endif %}
+          </div>
+
+  
+
+</div>
+
+</div>
+</div>
+</div>
+{% endif %}
+{% endfor %}
+{% endfor %}
+
+</div>
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<form id="myForm" >
+
+    <div class="album py-2 mb-5 bg-light">
+      <div class="container">
+        {% if Exam_Name_Filter %}
+        {% for Exam_Name_Filters in Exam_Name_Filter %}
+    
+        <div class="row row-cols-1 row-cols-md-2 g-0 mb-3">
+          <div class="col-md-6 container">
+    
+            <div class="card ">
+  
+              {% if Exam_Name_Filters.Question_Image %}
+              <img src="{{Exam_Name_Filters.Question_Image.url}}" class="card-img-top " />
+              {% comment %} <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg> {% endcomment %}
+              {% else %}
+              {% comment %} <img src="https://mocra.org/wp-content/uploads/2016/07/default.jpg" class="card-img-top" alt="..."> {% endcomment %}
+    <svg class="bd-placeholder-img card-img-top " width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="40%" y="50%" fill="#eceeef" dy=".3em">Resim Yok</text></svg> 
+    
+              {% endif %}
+    
+              <div class="card-body">
+  
+                <p class="card-text">
+                  {{ Exam_Name_Filters.Question}}
+                </p>
+                <div class="btn-group-vertical container"  role="group" aria-label="Vertical radio toggle button group">
+                  <!-- ŞIK BAŞLANGIÇ-->
+                  {% if Exam_Name_Filters.Choice_A %}
+                    <div class="mb-2">
+                      <label class="btn btn-success" for="vbtn-radio{{ Exam_Name_Filters.id }}-1">
+                        <input type="radio" name="optionsRadios{{ Exam_Name_Filters.id }}"  value="A" id="{{ Exam_Name_Filters.id }}" autocomplete="off">
+                        A
+                      </label>
+                      <span>{{ Exam_Name_Filters.Choice_A }}</span>
+                    </div>
+                  {% endif %}
+                  
+                  {% if Exam_Name_Filters.Choice_B %}
+                    <div class="mb-2">
+                      <label class="btn btn-success" for="{{ Exam_Name_Filters.id }}">
+                        <input type="radio" name="optionsRadios{{Exam_Name_Filters.id}}" value="B" id="{{ Exam_Name_Filters.id }}" autocomplete="off">
+                        B
+                      </label>
+                      <span>{{ Exam_Name_Filters.Choice_B }}</span>
+                    </div>
+                  {% endif %}
+                  
+                  {% if Exam_Name_Filters.Choice_C %}
+                    <div class="mb-2">
+                      <label class="btn btn-success" for="{{ Exam_Name_Filters.id }}">
+                        <input type="radio" name="optionsRadios{{Exam_Name_Filters.id}}" value="C" id="{{ Exam_Name_Filters.id }}" autocomplete="off">
+                        C
+                      </label>
+                      <span>{{ Exam_Name_Filters.Choice_C }}</span>
+                    </div>
+                  {% endif %}
+                  
+                  {% if Exam_Name_Filters.Choice_D %}
+                    <div class="mb-2">
+                      <label class="btn btn-success" for="{{ Exam_Name_Filters.id }}">
+                        <input type="radio" name="optionsRadios{{Exam_Name_Filters.id}}" value="D" id="{{ Exam_Name_Filters.id }}" autocomplete="off">
+                        D
+                      </label>
+                      <span>{{ Exam_Name_Filters.Choice_D }}</span>
+                    </div>
+                  {% endif %}
+                  
+                  {% if Exam_Name_Filters.Choice_E %}
+                    <div class="mb-2">
+                      <label class="btn btn-success" for="{{ Exam_Name_Filters.id }}">
+                        <input type="radio" name="optionsRadios{{Exam_Name_Filters.id}}" value="E" id="{{ Exam_Name_Filters.id }}" autocomplete="off">
+                        E
+                      </label>
+                      <span>{{ Exam_Name_Filters.Choice_E }}</span>
+                    </div>
+                  {% endif %}
+                  <div class="mb-2">
+                    <label class="btn btn-danger" for="{{ Exam_Name_Filters.id }}">
+                      <input type="radio" name="optionsRadios{{Exam_Name_Filters.id}}"checked value="N" id="{{ Exam_Name_Filters.id }}" autocomplete="off">
+                      BOŞ BIRAK
+                    </label>
+                    </div>
+                  <!-- ŞIK BİTİŞ-->
+                        </div>
+  
+                
+    
+              </div>
+              
+            </div>
+          </div>
+        </div>
+          {% endfor %}
+  
+  
+  
+  
+  
+  
+  
+          {% else %}
+          
+          
+          
+          
+          {% endif %}
+
+  
+    </div>
+    
+    </div>
+  
+  </form>
+  
+
+{% endblock body %}
+{% include 'base/footer.html' %}

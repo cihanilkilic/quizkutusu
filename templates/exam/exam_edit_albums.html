@@ -1,0 +1,72 @@
+
+<div class="album py-5 mb-5 bg-light">
+  
+    <div class="container">
+      {% comment %} <div class="text-center text-info">
+        
+        {% if messages %}
+        {% for message in messages %}
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} text-center border-0" role="alert" {% endif %}>
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+
+      </div> {% endcomment %}
+
+      {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+        <strong>{{ message }}!</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% endfor %}
+
+    {% endif %}
+
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
+        {% for cart_show in edit %}
+        <div class="col">
+            <div class="card shadow-sm">
+              {% if cart_show.Question_Image %}
+              <img class="card-img-top" src="{{cart_show.Question_Image.url }}"  width="100%" height="225" alt="..." />
+  
+              {% else %}
+              <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="40%" y="50%" fill="#eceeef" dy=".3em">Resim Yok</text></svg>
+  
+              {% endif %}
+              <div class="card-body">
+                  <span class="badge text-bg-primary">{{ cart_show.Lessons}}</span>
+                  <span class="badge text-bg-secondary">{{ cart_show.Topics_Name}}</span>
+                  <span class="badge rounded-pill text-bg-danger">{{ cart_show.Level}}</span>
+                <p class="card-text">
+                  <span class="badge text-bg-info">Soru</span>
+                  {{ cart_show.Question}}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <a class="btn btn-sm btn-outline-success" href="">Görüntüle</a>&nbsp;&nbsp;
+                    {% comment %} <button type="button" class="btn btn-sm btn-outline-success">Görüntüle</button> {% endcomment %}
+                   <button type="button" class="btn btn-sm btn-outline-warning">Dünzele</button>&nbsp;&nbsp;
+                   {% comment %} <button type="button" class="btn btn-sm btn-outline-danger">Sil</button>  {% endcomment %}
+                   {% comment %} <a class="btn btn-sm btn-outline-danger" href="{% url "question:question_delete" user.id %}">
+                    Sil
+                  </a> {% endcomment %}
+  
+                  <a class="btn btn-sm btn-outline-danger saveButton" href="{% url "cart:exam_edit_delete" cart_show.Question_ID %}" data-user-id="{{cart_show.Question_ID}}"> {{cart_show.Question_ID}}Sil</a>&nbsp;&nbsp;
+                  </div>
+                  <small class="text-muted small">{{ cart_show.Created_Date|date:"M d, Y" }}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+        
+     
+
+
+      </div>
+    </div>
+  </div>
+
+

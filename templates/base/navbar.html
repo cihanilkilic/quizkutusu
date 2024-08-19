@@ -1,0 +1,480 @@
+
+<section class="">
+    <!-- expand-lg -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-warning mb-3 fixed-top">
+        <div class="container">
+            <a class="navbar-brand w-50" href="#">
+                    <input  class="form-control me-2" id="search"  list="datalistOptions" placeholder="Ders-konu-soru-seviye ..." aria-label="Search">
+                    {% comment %} <button class="btn btn-outline-success" type="submit">Ara</button> {% endcomment %}
+            </a>
+
+            <div class="order-lg-last flex-grow-1 flex-lg-grow-0 text-end">
+                <button class="btn btn-outline-light ms-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasUser" aria-controls="offcanvasUser">
+
+                      {% if request.user.is_authenticated %}
+
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-check" viewBox="0 0 16 16">
+                        <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm1.679-4.493-1.335 2.226a.75.75 0 0 1-1.174.144l-.774-.773a.5.5 0 0 1 .708-.708l.547.548 1.17-1.951a.5.5 0 1 1 .858.514ZM11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/>
+                        <path d="M8.256 14a4.474 4.474 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10c.26 0 .507.009.74.025.226-.341.496-.65.804-.918C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4s1 1 1 1h5.256Z"/>
+                      </svg>
+                      {% else %}
+
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-plus" viewBox="0 0 16 16">
+                        <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                        <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
+                      </svg>
+                      {% endif %}
+
+                </button>
+
+            </div>
+            <button class="navbar-toggler ms-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarExample-more-offcanvas" aria-controls="offcanvasNavbarExample-more-offcanvas">
+                <span class="navbar-toggler-icon" data-bs-target="#offcanvasNavbarExample-more-offcanvas"></span>
+            </button>
+
+            <div class="offcanvas offcanvas-end offcanvas-light" data-bs-hideresize="true" tabindex="-1" id="offcanvasNavbarExample-more-offcanvas" aria-labelledby="offcanvasNavbarExample-more-offcanvasLabel">
+                <div class="offcanvas-header bg-dark text-white">
+                    <h5 class="offcanvas-title" id="offcanvasLabel">quizkutusu.com</h5>
+                    <button type="button" class="btn-close btn-close-white text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                        <li class="nav-item">
+                            <a class="nav-link active text-success" aria-current="page" href="{% url 'quizbox:index' %}">Anasayfa</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-success" href="{% url 'forum:discover' %}">Forum</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link active text-success" aria-current="page" href="{% url 'testing_and_exam:testing_and_exam' %}">Deneme-Sınav</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-success" href="{% url 'chat:chat_default'  %}">Sohbet</a>
+                        </li>
+                        
+                        <!-- FORUM BAŞLANGIÇ-->
+                        {% if request.user.is_authenticated %}
+                        <li class="nav-item ">
+                            <a class="nav-link text-success"  aria-current="page" href="{% url 'forum:forum_create'  %}">
+                               Forumda Sor
+                               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                        <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286m1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94"/>
+                                      </svg>
+                            </a>
+
+                        </li>
+                        {% endif %}
+                        {% if user_profile.user_types == 'Teacher' %}
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-success" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Soru-Sınav
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item text-success" href="{% url 'question:Question'  %}">Soru Hazırla</a></li>
+                                <li><a class="dropdown-item text-success" href="{% url "question:quiz" %}">Sınav Hazırla</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item text-success" href="{% url 'question:show_cart'  %}">Sepetim</a></li>
+                                <li><a class="dropdown-item text-success" href="{% url 'cart:cart_exam_show'  %}">Sınavlarım</a></li>
+                            </ul>
+                        </li>
+                        {% endif %}
+
+                        <!-- FORUM BİTİŞ-->
+
+
+
+
+
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- offcanvas-user -->
+    <div class="offcanvas offcanvas-end " tabindex="-1" id="offcanvasUser" aria-labelledby="offcanvasUserLabel">
+        <div class="offcanvas-header bg-dark text-white">
+            {% if request.user.is_authenticated %}
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+              </svg>
+            <h5 class="offcanvas-title text-uppercase" id="offcanvasUserLabel">{{request.user.get_full_name}}
+
+
+
+            </h5>
+            {% else %}
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-add" viewBox="0 0 16 16">
+                <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/>
+                <path d="M8.256 14a4.474 4.474 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10c.26 0 .507.009.74.025.226-.341.496-.65.804-.918C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4s1 1 1 1h5.256Z"/>
+              </svg>
+            {% endif %}
+
+
+
+            <button type="button" class="btn-close btn-close-white text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body ">
+            <!--  <div class="overflow-auto">-->
+            <!-- <p>This offcanvas is placed outside the <code>&#60;nav>...&#60;/nav></code> tag.</p> -->
+            <div class="list-group ">
+                {% if request.user.is_authenticated %}
+                {% with user_id=request.user.id  %}
+                <a href="{% url 'user:User_Profil' user_id %}" class="list-group-item list-group-item-action mb-2  bg-success text-white" aria-current="true">
+                    {% endwith %}
+                    <div class="d-flex w-100 justify-content-center ">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-up" viewBox="0 0 16 16">
+                            <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.354-5.854 1.5 1.5a.5.5 0 0 1-.708.708L13 11.707V14.5a.5.5 0 0 1-1 0v-2.793l-.646.647a.5.5 0 0 1-.708-.708l1.5-1.5a.5.5 0 0 1 .708 0M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
+                            <path d="M8.256 14a4.474 4.474 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10c.26 0 .507.009.74.025.226-.341.496-.65.804-.918C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4s1 1 1 1z"/>
+                          </svg>&nbsp;
+                      <h5 class="mb-1 ">Profilimi Görüntüle</h5>
+                    </div>
+                    <small class="justify-content-center">Kullanıcı Bilgileri, Gönderiler ve Etkinlikler...</small>
+                  </a>
+
+                  {% if user_profile.user_types == 'Teacher' %}
+<a href="{% url 'user:teacher_profiles' %}" class="list-group-item list-group-item-action bg-info text-white mb-2" aria-current="true">
+<div class="d-flex w-100 justify-content-center  ">
+    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-vcard" viewBox="0 0 16 16">
+        <path d="M5 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4m4-2.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5M9 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4A.5.5 0 0 1 9 8m1 2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5"/>
+        <path d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zM1 4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H8.96c.026-.163.04-.33.04-.5C9 10.567 7.21 9 5 9c-2.086 0-3.8 1.398-3.984 3.181A1.006 1.006 0 0 1 1 12z"/>
+      </svg>&nbsp;
+  <h5 class="mb-1 ">Aboneleri Görüntüle</h5>
+  {% comment %} <h5 class="mb-1 ">Öğretim Üyeleri</h5> {% endcomment %}
+</div>
+<small class="justify-content-center">Katıl Üyeleri Hakkında Bilgileri Görüntüle.</small>
+</a>
+{% endif %}
+  {% comment %} SINAV SONUÇLARI GÖSTER BAŞLANGIÇ {% endcomment %}
+
+
+  <a href="{% url 'testing_and_exam:exam_result_show' %}" class="list-group-item list-group-item-action bg-secondary text-white mb-2" aria-current="true">
+    <div class="d-flex w-100 justify-content-center  ">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708"/>
+            <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708"/>
+          </svg>&nbsp;
+      <h5 class="mb-1 ">SINAV SONUÇLARINI GÖSTER</h5>
+      {% comment %} <h5 class="mb-1 ">Öğretim Üyeleri</h5> {% endcomment %}
+    </div>
+    <small class="justify-content-center">GİRİLEN SINAVLAR Hakkında Bilgileri Görüntüle.</small>
+  </a>
+
+  <a href="{% url 'testing_and_exam:testing_result_show' %}" class="list-group-item list-group-item-action bg-secondary text-white mb-2" aria-current="true">
+    <div class="d-flex w-100 justify-content-center  ">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708"/>
+            <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708"/>
+          </svg>&nbsp;
+      <h5 class="mb-1 ">DENEME SONUÇLARINI GÖSTER</h5>
+      {% comment %} <h5 class="mb-1 ">Öğretim Üyeleri</h5> {% endcomment %}
+    </div>
+    <small class="justify-content-center">GİRİLEN DENEME Hakkında Bilgileri Görüntüle.</small>
+  </a>
+
+  <a href="{% url 'testing_and_exam:tyt_result_show' %}" class="list-group-item list-group-item-action bg-secondary text-white mb-2" aria-current="true">
+    <div class="d-flex w-100 justify-content-center  ">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708"/>
+            <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708"/>
+          </svg>&nbsp;
+      <h5 class="mb-1 ">TYT SONUÇLARINI GÖSTER</h5>
+      {% comment %} <h5 class="mb-1 ">Öğretim Üyeleri</h5> {% endcomment %}
+    </div>
+    <small class="justify-content-center">GİRİLEN TYT Hakkında Bilgileri Görüntüle.</small>
+  </a>
+
+
+  <a href="{% url 'testing_and_exam:ayt_result_show' %}" class="list-group-item list-group-item-action bg-secondary text-white mb-2" aria-current="true">
+    <div class="d-flex w-100 justify-content-center  ">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708"/>
+            <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708"/>
+          </svg>&nbsp;
+      <h5 class="mb-1 ">AYT SONUÇLARINI GÖSTER</h5>
+      {% comment %} <h5 class="mb-1 ">Öğretim Üyeleri</h5> {% endcomment %}
+    </div>
+    <small class="justify-content-center">GİRİLEN AYT Hakkında Bilgileri Görüntüle.</small>
+  </a>
+
+  <a href="{% url 'user:student_works' %}" class="list-group-item list-group-item-action bg-warning text-white mb-2" aria-current="true">
+    <div class="d-flex w-100 justify-content-center  ">
+
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-workspace" viewBox="0 0 16 16">
+            <path d="M4 16s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-5.95a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
+            <path d="M2 1a2 2 0 0 0-2 2v9.5A1.5 1.5 0 0 0 1.5 14h.653a5.4 5.4 0 0 1 1.066-2H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v9h-2.219c.554.654.89 1.373 1.066 2h.653a1.5 1.5 0 0 0 1.5-1.5V3a2 2 0 0 0-2-2z"/>
+          </svg> &nbsp;
+      <h5 class="mb-1 ">ÇALIŞMALARIM</h5>
+      {% comment %} <h5 class="mb-1 ">Öğretim Üyeleri</h5> {% endcomment %}
+    </div>
+    <small class="justify-content-center">KİŞİSEL ÇALIŞMALAR-PAYLAŞIMLAR.</small>
+  </a>
+
+  {% comment %} SINAV SONUÇLARI GÖSTER BİTİŞ {% endcomment %}
+  {% if user_profile.user_types == 'Teacher' %}
+
+  {% comment %} SINAV SONUÇLARI GÖSTER BAŞLANGIÇ BURAYA GELECEK {% endcomment %}
+  <a href="{% url 'question:show_cart'  %}" class="list-group-item list-group-item-action bg-secondary text-white mb-2" aria-current="true">
+    <div class="d-flex w-100 justify-content-center  ">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-basket3" viewBox="0 0 16 16">
+            <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM3.394 15l-1.48-6h-.97l1.525 6.426a.75.75 0 0 0 .729.574h9.606a.75.75 0 0 0 .73-.574L15.056 9h-.972l-1.479 6h-9.21z"/>
+          </svg>&nbsp;
+      <h5 class="mb-1 ">Sepete Git</h5>
+    </div>
+    <small class="justify-content-center">Daha Önce Eklemiş Olduğunuz Soruları Görüntüle.</small>
+  </a>
+
+{% endif %}
+
+
+                <a href="{% url 'user:User_Logout' %}" class="list-group-item list-group-item-action bg-danger text-white " aria-current="true">
+                    <div class="d-flex w-100 justify-content-center  ">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
+                            <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+                          </svg>&nbsp;
+                      <h5 class="mb-1 ">Çıkış yap</h5>
+                    </div>
+                    <small class="justify-content-center">Güvenli bir şekilde oturumu sonlandır.</small>
+                  </a>
+
+                {% else %}
+<a href="{% url 'user:User_Login' %}" class="list-group-item list-group-item-action   border border-0" aria-current="true">
+<div class="card text-bg-primary border border-0" style="max-width: 20rem;">
+   <div class="card-header text-center">Giriş yap</div>
+<div class="card-body">
+<h5 class="card-title text-center">Zaten bir hesabın var mı?</h5>
+
+</div>
+</div>
+</a>
+
+<a href="{% url 'user:User_Register' %}" class="list-group-item list-group-item-action border border-0" aria-current="true">
+<div class="card text-bg-light border border-0" style="max-width: 20rem;">
+ <div class="card-header text-center">Hesap oluştur</div>
+<div class="card-body">
+<h5 class="card-title text-center">Henüz bir hesabın yok mu?</h5>
+
+</div>
+</div>
+</a>
+
+
+                {% endif %}
+
+              </div>
+         <!-- </div> -->
+        </div>
+
+    </div>
+
+    <!-- Modal -->
+
+</section>
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div id="total-results" class="text-center mt-1"></div>
+
+            <div id="search-results"></div>
+        </div>
+    </div>
+</div>
+{% if messages %}
+{% for message in messages %}
+    <div {% if message.tags %} class="alert alert-{{ message.tags }} text-center border-0 container" role="alert" {% endif %}>
+        {{ message }}
+    </div>
+{% endfor %}
+{% endif %}
+  <style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        background-color: #f8f9fa;
+        padding-top: 20px;
+    }
+
+    .custom-card {
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+        transition: transform 0.3s ease;
+        padding: 20px;
+    }
+
+    .custom-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .custom-card-title {
+        font-size: 1.5rem;
+        color: #333;
+        margin-bottom: 1rem;
+        font-weight: bold;
+    }
+
+    .custom-card-title a {
+        text-decoration: none;
+        color: #333;
+    }
+
+    .custom-card-title a:hover {
+        color: #007bff;
+    }
+
+    .custom-card-text {
+        color: #6c757d;
+        margin-bottom: 0.5rem;
+    }
+
+    #total-results {
+        color: #6c757d;
+        font-size: 1rem;
+        font-weight: bold;
+    }
+
+    .alert {
+        border-radius: 15px;
+        font-weight: bold;
+    }
+
+    .alert-danger {
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+        color: #721c24;
+    }
+
+    #total-results {
+        color: #6c757d;
+        font-size: 2rem;
+        font-weight: bold;
+    }
+
+    .alert {
+        border-radius: 15px;
+        font-weight: bold;
+    }
+
+    .alert-danger {
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+        color: #721c24;
+    }
+
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    var searchResultsContainer = $('#search-results');
+
+    $('#search').on('input', function() {
+        var searchTerm = $(this).val();
+
+        // Arama kutusu boş ise istek yapma
+        if (searchTerm === '') {
+            clearSearchResults();
+            return;
+        }
+
+        // Ajax isteği
+        $.ajax({
+            url: '{% url "quizbox:search_questions" %}',
+            data: {
+                'term': searchTerm
+            },
+            dataType: 'json',
+            success: function(data) {
+                searchResultsContainer.empty();
+
+                if (data.length === 0) {
+                    searchResultsContainer.append('<div class="alert alert-danger text-center" role="alert">Sonuç bulunamadı.</div>');
+                    clearTotalResults();
+                } else {
+                    $.each(data, function(index, item) {
+                        searchResultsContainer.append(createCard(item));
+                    });
+
+                    updateTotalResults(data.length);
+                }
+            },
+            error: function(xhr, status, error) {
+                var errorMessage = xhr.status + ': ' + xhr.statusText;
+                searchResultsContainer.append('<div class="alert alert-danger" role="alert">Arama yaparken bir hata oluştu: ' + errorMessage + '. Lütfen daha sonra tekrar deneyin...</div>');
+            }
+        });
+    });
+
+    function createCard(item) {
+        var card = $('<div class="card mb-3 border-0"></div>'); // Bootstrap card class added
+        var cardBody = $('<div class="card-body p-3"></div>');
+
+        var url = '/question/question_detail/' + item.pk + '/';
+        var title = $('<h5 class="card-title mb-1"><a href="' + url + '" class="stretched-link">' + (item.text.length > 50 ? item.text.substring(0, 47) + "..." : item.text) + '</a></h5>'); // card-title class added
+
+        // Yayınlayan ve Ders sütunu
+        var authorAndLesson = $('<div class="row mb-1"></div>');
+        var authorCol = $('<div class="col-6"></div>');
+        var lessonsCol = $('<div class="col-6"></div>');
+        var authorInfo = $('<p class="card-text text-muted mb-0 text-uppercase mt-2">Yayınlayan: ' + item.author + '</p>');
+        var lessons = $('<p class="card-text text-muted mb-0 text-uppercase text-end">Ders: ' + item.lessons + '</p>');
+        authorCol.append(authorInfo);
+        lessonsCol.append(lessons);
+        authorAndLesson.append(authorCol);
+        authorAndLesson.append(lessonsCol);
+
+        // Konu ve Tarih sütunu
+        var topicAndDate = $('<div class="row mb-1"></div>');
+        var topicCol = $('<div class="col-6"></div>');
+        var dateCol = $('<div class="col-6"></div>');
+        var type = $('<p class="card-text text-muted mb-0 text-uppercase">Konu: ' + item.topic_type + '</p>'); // Type
+        var date = $('<p class="card-text text-muted mb-0 text-uppercase text-end">Tarih: ' + new Date(item.Created_Date).toLocaleDateString('tr-TR') + '</p>'); // Date
+        topicCol.append(type);
+        dateCol.append(date);
+        topicAndDate.append(topicCol);
+        topicAndDate.append(dateCol);
+
+        // Resim kontrolü
+        var image;
+        if (item.question_image) {
+            image = $('<img src="' + item.question_image + '" class="card-img-top img-fluid rounded" alt="Question Image">'); // Bootstrap card-img-top and img-thumbnail classes added
+        } else {
+            image = $('<div class="text-center"><i class="far fa-image fa-3x text-muted"></i></div>'); // Varsayılan ikon
+        }
+
+        cardBody.append(title);
+        cardBody.append(authorAndLesson);
+        cardBody.append(topicAndDate);
+        card.append(image);
+        card.append(cardBody);
+        return card;
+    }
+
+    function clearSearchResults() {
+        searchResultsContainer.empty();
+        clearTotalResults();
+    }
+
+    function clearTotalResults() {
+        $('#total-results').empty();
+    }
+
+    function updateTotalResults(count) {
+        $('#total-results').text(count + ' + sonuç listelendi.');
+    }
+});
+
+</script>

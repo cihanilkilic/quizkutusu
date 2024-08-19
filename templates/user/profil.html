@@ -1,0 +1,439 @@
+{% include 'base/layout.html' %}
+{% comment %} {% include 'base/albums.html' %} {% endcomment %}
+{% block body %}
+<style>
+  /* Custom scrollbar style */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f5f5f5;
+    border-radius: 10px;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+  /* Button for scrollbar */
+  ::-webkit-scrollbar-button {
+    display: none;
+  }
+
+  /* Corner */
+  ::-webkit-scrollbar-corner {
+    background: #f5f5f5;
+  }
+</style>
+
+<style>
+    .card {
+        border: none;
+    }
+
+    .pro-img img {
+
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .card-body {
+        padding: 30px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+</style>
+
+<!--MODAL BAŞLANGIÇ profili düzenle -->
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      {% include 'user/profil_kayit_düzenle_modal.html' %}
+    </div>
+  </div>
+</div>
+<!--MODAL BİTİŞ profili düzenle  -->
+
+<!--MODAL BAŞLANGIÇ ABONE OL -->
+<div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      {% include 'user/user_subscribe_modal.html' %}
+    </div>
+  </div>
+</div>
+<!--MODAL BİTİŞ  ABONE OL -->
+         <!--MODAL BAŞLANGIÇ ABONE FİYAT GÜNCELLEME -->
+         <div class="modal fade" id="exampleModal4" tabindex="-1" aria-labelledby="exampleModalLabel4" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+        
+              {% include 'user/user_subscribe_edit_modal.html' %}
+            </div>
+          </div>
+        </div>
+        <!--MODAL BİTİŞ  ABONE FİYAT GÜNCELLEME -->
+        
+
+  <section style="background-color: #eee;">
+    <div class="container py-5">
+
+      <div class="row">
+        <div class="col-lg-4">
+
+          <div class="card mb-3">
+            <div class="card-body text-center">
+              {% if user_profile.avatars.url %}
+              <img src="{{ user_profile.avatars.url }}" alt="avatar"
+                class="rounded-circle img-fluid" style="width: 121px;">
+              {% else %}
+              <img src="https://static.vecteezy.com/system/resources/previews/010/260/479/non_2x/default-avatar-profile-icon-of-social-media-user-in-clipart-style-vector.jpg" alt="avatar"
+                class="rounded-circle img-fluid" style="width: 121px;">
+              {% endif %}
+              <h5 class="my-3 text-uppercase">{{user_profile.author.first_name }} {{ user_profile.author.last_name }}</h5>
+              {% for lesson in user_profile.lessons.all %}
+              {% if lesson %}
+              <p class="text-muted mb-1 text-uppercase">{{ lesson }} öğretmeni</p>
+              {% endif %}
+              {% endfor %}
+              <div class="row text-center m-t-20">
+                <div class="col-3 col-lg-3">
+                  <p class="text-muted mb-1">{{topic_count}}</p><small>Konu</small>
+                </div>
+                <div class="col-3 col-lg-3">
+                  <p class="text-muted mb-1">{{user_post_count}}</p><small>Soru</small>
+                </div>
+                <div class="col-3 col-lg-3">
+                  <p class="text-muted mb-1" id="followers-count">{{user_followers_count}}</p><small>Takipçi</small>
+                </div>
+                <div class="col-3 col-lg-3">
+                  <p class="text-muted mb-1" id="following-count">{{user_following_count}}</p><small>Takip</small>
+                </div>
+              </div>
+
+              <hr>
+
+              <div class="d-flex justify-content-center mb-2">
+                {% if user_profile.author_id == request.user.id and user_profile.user_types == 'Teacher' %}
+                <a class="btn btn-outline-primary ms-1 mb-2"
+                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                data-bs-toggle="modal" data-bs-target="#exampleModal4" data-bs-whatever="@getbootstrap" href="{% url "user:User_Profil" request.user.id %}">
+                Abonelik Düzenle
+              </a>
+              {% endif %}
+
+                {% if user_profile.author_id != request.user.id %}
+                {% if user_profile.user_types == 'Teacher' %}
+                
+                <button id="follow-button" class="btn btn-outline-primary ms-1 mb-2"
+                  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                  data-abc="true" data-user-id="{{ user_profile.author_id }}">
+                  {% if request.user in user_profile.followers.all %}
+                  Takipten Çık
+                  {% else %}
+                  Takip Et
+                  {% endif %}
+                </button>
+
+                <a class="btn btn-outline-primary ms-1 mb-2"
+                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" href="#!" data-bs-toggle="modal" data-bs-target="#exampleModal3" data-bs-whatever="@getbootstrap">
+                Abone Ol</a>
+
+                {% endif %}
+
+                {% else %}
+                <a class="btn btn-outline-primary ms-1 mb-2"
+                  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                  data-bs-toggle="modal" data-bs-target="#exampleModal2" data-bs-whatever="@getbootstrap" href="#!">
+                  Profili Düzenle</a>
+
+
+                {% endif %}
+                <a class="btn btn-outline-primary ms-1 mb-2"
+                  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" href="#!">
+
+                {% if user_profile.user_types == 'Teacher'%}
+                Öğretmen
+                {% else %}
+                Öğrenci
+                {% endif %}
+
+                </a>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+        <div class="col-lg-8">
+          <div class="card mb-5">
+            <div class="card-body">
+
+
+              <!-- Navs and tabs başlangıç -->
+              <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Konular</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">İletişim</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Contact</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="pills-disabled-tab" data-bs-toggle="pill" data-bs-target="#pills-disabled" type="button" role="tab" aria-controls="pills-disabled" aria-selected="false" disabled>Disabled</button>
+                </li>
+              </ul>
+              <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
+                           <!-- İstatistik başlangıç -->
+                           <div class="row">
+                            <div class="col-md-12">
+                              <div class="card mb-4 mb-md-0">
+                                <div class="card-body" style="max-height: 300px; overflow-y: auto;">
+                                  {% comment %}
+                                  <p class="mb-4"><span class="text-primary font-italic me-1">assigment</span> Project Status </p>
+                                  {% endcomment %}
+
+
+                                  {% for questions in topics_count %}
+                                  <button type="button" class="btn btn-primary position-relative" style="margin: 16px 16px 16px 0;">
+                                    {{questions.Topics_Name}}
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                      {{questions.count }}+
+                                    </span>
+                                  </button>
+                                {% endfor %}
+
+                                {% comment %}
+                                  <p class="mb-1" style="font-size: .77rem;">Web Design</p>
+                                  <div class="progress" style="height: 20px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 90%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">90%</div>
+                                  </div>
+                                  <p class="mt-4 mb-1" style="font-size: .77rem;">Website Markup</p>
+                                  <div class="progress" style="height: 20px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                                  </div>
+                                  <p class="mt-4 mb-1" style="font-size: .77rem;">One Page</p>
+                                  <div class="progress" style="height: 20px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">50%</div>
+                                  </div>
+                                  <p class="mt-4 mb-1" style="font-size: .77rem;">Mobile Template</p>
+                                  <div class="progress" style="height: 20px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 10%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">10%</div>
+                                  </div> {% endcomment %}
+                                  {% comment %} <p class="mt-4 mb-1" style="font-size: .77rem;">Backend API</p>
+                                  <div class="progress" style="height: 20px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 68%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">68%</div>
+                                  </div> {% endcomment %}
+
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                  <!-- İstatistik bitiş -->
+
+                </div>
+                <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
+                           <!-- Linkler başlangıç -->
+
+
+                  <div class="row">
+
+                    <div class="col-md-12">
+                      <div class="card mb-4 mb-md-0">
+                        <div class="card-body">
+                          <ul class="list-group list-group-light">
+                            {% if user_profile %}
+                            {% if user_profile.social_media_instagram %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                              <div class="d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
+                                  <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/>
+                                </svg>
+                                <div class="ms-3">
+                                  <p class="fw-bold mb-1">
+                                    <a href="{{user_profile.social_media_instagram}}"  target="_blank">
+                                    İnstagram Adresi
+                                  </a>
+                                  </p>
+                                  {% comment %} <p class="text-muted mb-0">john.doe@gmail.com</p> {% endcomment %}
+                                </div>
+                              </div>
+                              {% comment %} <a class="btn btn-link btn-rounded btn-sm" href="#" role="button">View</a> {% endcomment %}
+                            </li>
+                            {% endif %}
+                            {% if user_profile.mail_adress %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                              <div class="d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-envelope-at" viewBox="0 0 16 16">
+                                  <path d="M2 2a2 2 0 0 0-2 2v8.01A2 2 0 0 0 2 14h5.5a.5.5 0 0 0 0-1H2a1 1 0 0 1-.966-.741l5.64-3.471L8 9.583l7-4.2V8.5a.5.5 0 0 0 1 0V4a2 2 0 0 0-2-2zm3.708 6.208L1 11.105V5.383zM1 4.217V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v.217l-7 4.2z"/>
+                                  <path d="M14.247 14.269c1.01 0 1.587-.857 1.587-2.025v-.21C15.834 10.43 14.64 9 12.52 9h-.035C10.42 9 9 10.36 9 12.432v.214C9 14.82 10.438 16 12.358 16h.044c.594 0 1.018-.074 1.237-.175v-.73c-.245.11-.673.18-1.18.18h-.044c-1.334 0-2.571-.788-2.571-2.655v-.157c0-1.657 1.058-2.724 2.64-2.724h.04c1.535 0 2.484 1.05 2.484 2.326v.118c0 .975-.324 1.39-.639 1.39-.232 0-.41-.148-.41-.42v-2.19h-.906v.569h-.03c-.084-.298-.368-.63-.954-.63-.778 0-1.259.555-1.259 1.4v.528c0 .892.49 1.434 1.26 1.434.471 0 .896-.227 1.014-.643h.043c.118.42.617.648 1.12.648m-2.453-1.588v-.227c0-.546.227-.791.573-.791.297 0 .572.192.572.708v.367c0 .573-.253.744-.564.744-.354 0-.581-.215-.581-.8Z"/>
+                                </svg>
+                                <div class="ms-3">
+                                  <p class="fw-bold mb-1">
+                                    <a href="#" >
+                                    {{user_profile.mail_adress}}
+                                  </a>
+                                  </p>
+                                  {% comment %} <p class="text-muted mb-0">alex.ray@gmail.com</p> {% endcomment %}
+                                </div>
+                              </div>
+                              {% comment %} <a class="btn btn-link btn-rounded btn-sm" href="#" role="button">View</a> {% endcomment %}
+                            </li>
+                            {% endif %}
+                            {% comment %}
+                            {% if user_profile.mail_adress %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                              <div class="d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-youtube" viewBox="0 0 16 16">
+                                  <path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.007 2.007 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.007 2.007 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31.4 31.4 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.007 2.007 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A99.788 99.788 0 0 1 7.858 2h.193zM6.4 5.209v4.818l4.157-2.408z"/>
+                                </svg>
+                                <div class="ms-3">
+                                  <p class="fw-bold mb-1">Youtube Adresi Linki</p>
+                                   <p class="text-muted mb-0">kate.hunington@gmail.com</p>
+                                </div>
+                              </div>
+
+                           <a class="btn btn-link btn-rounded btn-sm" href="#" role="button">View</a>
+                            </li>
+                            {% endif %}
+                            {% endcomment %}
+                            {% if user_profile.social_media_twitter %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                              <div class="d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-twitter-x" viewBox="0 0 16 16">
+                                  <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"/>
+                                </svg>
+                                <div class="ms-3">
+                                  <p class="fw-bold mb-1">
+                                    <a href="{{user_profile.social_media_twitter}}"  target="_blank">
+                                    X Adresi
+                                  </a>
+                                  </p>
+                                  {% comment %} <p class="text-muted mb-0">kate.hunington@gmail.com</p> {% endcomment %}
+                                </div>
+                              </div>
+
+                              {% comment %} <a class="btn btn-link btn-rounded btn-sm" href="#" role="button">View</a> {% endcomment %}
+                            </li>
+                            {% endif %}
+                            {% if user_profile.social_media_facebook %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                              <div class="d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+                                  <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"/>
+                                </svg>
+                                <div class="ms-3">
+                                  <p class="fw-bold mb-1">
+                                    <a href="{{user_profile.social_media_facebook}}"  target="_blank">
+
+                                    Facebook Adresi
+                                  </a>
+                                  </p>
+                                  {% comment %} <p class="text-muted mb-0">kate.hunington@gmail.com</p> {% endcomment %}
+                                </div>
+                              </div>
+
+                              {% comment %} <a class="btn btn-link btn-rounded btn-sm" href="#" role="button">View</a> {% endcomment %}
+                            </li>
+                            {% endif %}
+                            {% else %}
+                            <p>Herhangi bir bağlantı bulunamadı.</p>
+                            {% endif %}
+
+                          </ul>
+
+
+                        </div>
+                      </div>
+                    </div>
+
+                 </div>
+             <!-- Linkler Bitiş -->
+
+                </div>
+                <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab" tabindex="0">3</div>
+                <div class="tab-pane fade" id="pills-disabled" role="tabpanel" aria-labelledby="pills-disabled-tab" tabindex="0">...</div>
+              </div>
+
+              <!-- Navs and tabs bitiş -->
+
+
+
+
+
+
+
+
+
+            </div>
+          </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  {% include 'user/profile_questions.html' %}
+
+{% endblock body %}
+<br><br><br>
+{% include 'base/footer.html' %}
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#follow-button').click(function(event) {
+      event.preventDefault();
+      var userId = $(this).data('user-id');
+      $.ajax({
+        url: '{% url 'user:followView' %}',
+        method: 'POST',
+        data: {
+          'user_id': userId,
+          'csrfmiddlewaretoken': '{{ csrf_token }}'
+        },
+        success: function(data) {
+          if (data.followed) {
+            $('#follow-button').html('Takipten Çık');
+          } else {
+            $('#follow-button').html('Takip Et');
+          }
+          $('#followers-count').html(data.followers_count);
+          $('#following-count').html(data.following_count);
+        }
+      });
+    });
+  });
+</script>

@@ -1,0 +1,105 @@
+{% include 'base_user/base_user.html' %}
+
+{% block body %}
+{% if messages %}
+  {% for message in messages %}
+    <script>
+      alert("{{ message }}");
+    </script>
+  {% endfor %}
+{% endif %}
+<style>
+    .card {
+        border-radius: 1rem;
+    }
+    .card-header {
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
+    }
+    .form-group label {
+        font-weight: bold;
+    }
+    .btn-primary {
+        background-color: #0069d9;
+        border-color: #0062cc;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+    }
+    .form-group {
+        position: relative;
+    }
+    .form-group .fas {
+        position: absolute;
+        top: 50%;
+        left: 15px;
+        transform: translateY(-50%);
+        color: #6c757d;
+    }
+    .form-control {
+        padding-left: 2.5rem;
+    }
+    .invalid-feedback {
+        padding-left: 2.5rem;
+    }
+    .btn-container {
+        display: flex;
+        justify-content: center;
+    }
+</style>
+
+  <div class="container mt-5">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white text-center">
+                    <h2>quizkutusu.com/giriş yap</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="id_username">
+                                <i class="fas fa-user"></i> Kullanıcı Adı
+                            </label>
+                            <input type="text" name="username" autofocus autocapitalize="none" autocomplete="username" class="form-control mt-2 mb-2 {% if form.username.errors %}is-invalid{% endif %}" required>
+                            <div class="invalid-feedback">
+                                Lütfen kullanıcı adınızı girin.
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_password">
+                                <i class="fas fa-lock"></i> Şifre
+                            </label>
+                            <input type="password" name="password" autocomplete="current-password" class="form-control mt-2 mb-2 {% if form.password.errors %}is-invalid{% endif %}" required>
+                            <div class="invalid-feedback">
+                                Lütfen şifrenizi girin.
+                            </div>
+                        </div>
+                        <div class="btn-container">
+                            <button class="btn btn-primary btn-block mt-2 mb-2" type="submit">Giriş Yap</button>
+                        </div>
+                    </form>
+                    <div class="text-center mt-3">
+                        <small>
+                            <a href="{% url 'user:User_Register' %}" class="text-primary">Hesabınız yok mu? Kaydolun.</a>
+                        </small><br>
+                        <small>
+                            <a href="{% url 'user:password_reset' %}" class="text-primary">Şifrenizi mi unuttunuz?</a>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+{% endblock body %}

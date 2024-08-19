@@ -1,0 +1,54 @@
+
+
+<div class="album py-5 mb-5 bg-light">
+  {% if exam_show %}
+  <div class="alert alert-warning alert-dismissible fade show container text-center" role="alert">
+    {% comment %} <strong>Holy guacamole!</strong>{% endcomment %}Sınavları <strong>Pdf</strong> haline getirmek için sınav isimlerine tıklayınız. 
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% else %}
+  {% endif %}
+
+  
+<table class="table table-striped table-hover container" >
+    <thead>
+      <tr class="text-center">
+        <th scope="col">Tarih</th>
+        <th scope="col">Sınav Adı</th>
+        <th scope="col">Sınavı Düzenle</th>
+        <th scope="col">Sınavı Sil</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if exam_show %}
+    {% for ex in exam_show %}
+      <tr class="text-center">
+        <th scope="row">{{ex.max_created_date|date:"Y-m-d"}}</th>
+        
+        <td> <a href="{% url "cart:exam_pdf" ex.Exam_Title %}"  class="link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">{{ex.Exam_Title}}</a></td>
+        <td><a href="{% url "cart:exam_edit" ex.Exam_Title %}"  class="link-primary  link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Düzenle</a></td>
+
+        <td ><a class="link-danger link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover " href="{% url "cart:exam_delete" ex.Exam_Title %}">Sil</a></td>
+      
+      </tr>
+
+      {% endfor %}
+      {% else %}
+      <tr class="text-center ">
+        <td colspan="4 " class="bg-danger text-white">
+            Herhangi bir sınavınız yok
+        </td>
+    </tr>
+    
+      {% endif %}
+
+    </tbody>
+  </table>
+</div>
+
+
+<script>
+  var popover = new bootstrap.Popover(document.querySelector('.popover-dismiss'), {
+    trigger: 'focus'
+  });
+</script>

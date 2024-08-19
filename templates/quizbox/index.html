@@ -1,0 +1,187 @@
+
+{% load static %}
+{% include 'base/layout.html' %}
+{% block body %}
+
+
+
+{% if request.user.is_authenticated %}
+  <nav class="container mt-5">
+    <div class="row">
+      <div class="col-12">
+        <div class="nav nav-tabs justify-content-center" id="nav-tab" role="tablist">
+          <button class="nav-link custom-nav-link active col-6 text-center" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Akış</button>
+          <button class="nav-link custom-nav-link col-6 text-center" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Takip edilenler</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+ {% endif %}
+<div class="tab-content" id="nav-tabContent">
+  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row ">
+<div class="container">
+  <div class="row">
+    {% for image_file in image_files %}
+      <div class="col-sm-6 mt-4">
+        <div class="card h-100">
+          <img src="{{ MEDIA_URL }}{{ image_file }}" class="card-img-top" alt="Image">
+          <div class="card-body">
+            <h5 class="card-title text-center">
+              {% if forloop.counter == 1 %}
+                SINAV
+              {% elif forloop.counter == 2 %}
+                DENEME
+              {% elif forloop.counter == 3 %}
+                TYT (Temel Yeterlilik Testi)
+              {% elif forloop.counter == 4 %}
+                AYT (Alan Yeterlilik Testi)
+              {% else %}
+                {{ image_file|slice:"7:-5" }}
+              {% endif %}
+            </h5>
+            <p class="card-text text-center">
+              {% if forloop.counter == 1 %}
+                Sınav stresi ve kaygısı, öğrencilerin performansını etkileyebilir, bu yüzden sınav öncesi doğru hazırlık ve rahatlama teknikleri önemlidir. Kendine inan, başarını artır.
+              {% elif forloop.counter == 2 %}
+                                    Deneme sınavları, sınav kaygısını azaltma ve zaman yönetimi becerilerini geliştirme açısından da faydalıdır. Kendine inan, zamanı iyi kullan.
+              {% elif forloop.counter == 3 %}
+             TYT, Türkiye'de üniversiteye giriş sürecinde uygulanan ilk aşama sınavıdır ve genel yetenek ile temel bilgileri ölçmeyi amaçlar. Kendini dene, potansiyelini keşfet.
+              {% elif forloop.counter == 4 %}
+               AYT sonuçları, öğrencilerin üniversitelerin ilgili bölümlerine yerleştirilmelerinde önemli bir rol oynar. Kendine inan, geleceğini şekillendir.
+              {% else %}
+                Bu bir açıklama metnidir.
+              {% endif %}
+            </p>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row mt-3">
+
+
+<!-- --->
+  {% if posts %}
+    {% for post in posts %}
+
+            <div class="col-sm-6 mb-2">
+              <div class="card ">
+
+            <div class="card-footer border border-1 rounded-top">
+            <div class="media justify-content-center">
+
+                                {% if post.author_avatar  %}
+              <img class="mr-3 rounded-circle" src="{{ post.author_avatar  }}">
+              {% else %}
+              <img class="mr-3 rounded-circle" src="https://static.vecteezy.com/system/resources/previews/026/219/600/non_2x/account-icon-symbol-design-illustration-vector.jpg?format=auto&version=1688931977&width=80&height=80">
+              {% endif %}
+
+
+
+              <div class="media-body">
+                <h6 class="text-uppercase">
+
+                  <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{% url "user:User_Profil" post.author.pk %}">{{ post.author_first_name }} {{ post.author_last_name }}</a>
+                </h6>
+
+
+
+              </div>
+            </div>
+          </div>
+
+          {% if post.Question_Image %}
+          <img src="{{post.Question_Image.url}}" class="card-img-top rounded-0" />
+          {% comment %} <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg> {% endcomment %}
+					{% else %}
+					{% comment %} <img src="https://mocra.org/wp-content/uploads/2016/07/default.jpg" class="card-img-top" alt="..."> {% endcomment %}
+          <svg class="bd-placeholder-img card-img-top rounded-0" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="40%" y="50%" fill="#eceeef" dy=".3em">Resim Yok</text></svg>
+
+					{% endif %}
+                <div class="card-body">
+                        <h5 class="card-title">
+              <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="#">{{post.Lessons}}</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">{{post.Topics_Name}}</li>
+                </ol>
+              </nav>
+            </h5>
+            <p class="card-text">
+              {{ post.Question}}
+            </p>
+
+            <ul class="list-group list-group-light list-group-small text-center">
+              <li class="list-group-item px-4 border border-0"><a class="btn btn-sm btn-outline-primary" href="{% url "question:question_detail" post.id %}">Görüntüle</a></li>
+              <li class="list-group-item px-4 border border-0"><small class="text-muted small">{{ post.Created_Date}}</small></li>
+            </ul>
+                </div>
+
+
+              </div>
+            </div>
+
+
+                  {% endfor %}
+      {% else %}
+
+
+
+
+      {% endif %}
+
+
+
+
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<style>
+  .card-footer .media {
+    display: flex;
+    align-items: center;
+  }
+
+  .card-footer img {
+    max-width: 40px;
+    margin-right: 15px; /* Adjust the margin as needed */
+  }
+
+  .card-footer .media-body {
+    text-align: right;
+  }
+</style>
+
+
+<div style="margin-top: 100px;"></div>
+
+
+  {% comment %} <div style="margin-top: 250px;"></div> {% endcomment %}
+  {% include 'base/footer.html' %}
+
+{% endblock body %}

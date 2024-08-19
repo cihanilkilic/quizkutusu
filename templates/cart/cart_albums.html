@@ -1,0 +1,258 @@
+  <!-- exam name - exam save -->
+  <form id="myFormSave"     enctype="multipart/form-data">
+
+  </div>
+    <div class="album py-5 bg-light container">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-2">
+        <div class="col-md">
+          <div class="input-group ">
+            <span class="input-group-text" id="addon-wrapping">Sınav Adı</span>
+            <input type="text" class="form-control" placeholder="" name="input" aria-label="Sınav adı Giriniz" aria-describedby="addon-wrapping">
+            <button class="btn btn-primary BTNSUBMIT" type="button" id="button-addon2">Kaydet <i class="bi bi-check-circle"></i></button>
+          </div>
+          <div id="messageDiv" class="text-center"></div>
+      </div>
+    
+      <div class="col-md">
+        <div class="input-group">
+          <label class="input-group-text" for="inputGroupSelect01">Sınav Adı Seçiniz</label>
+          <select  class="form-select InputGroupSelect1 text-center" id="InputGroupSelect1" aria-label="Example select with button addon">
+            {% for title in exam_title %}
+            <option value='{{title.exam_title }}'>{{title.exam_title }} </option>
+    
+    {% endfor %}
+        </select>
+    
+    
+        </div>
+      </div>
+    
+    </div>
+    </div>
+    </form>
+      <!-- exam name - exam save -->
+
+<div class="album  mb-5 bg-light container">
+  {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
+        {% for cart_show in cart_shows %}
+        <div class="col">
+            <div class="card shadow-sm">
+              {% if cart_show.Question_Image %}
+              <img class="card-img-top" src="{{cart_show.Question_Image.url }}" id="Question_Image" name="Question_Image"  width="100%" height="225" alt="..." />
+  
+              {% else %}
+              <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="40%" y="50%" fill="#eceeef" dy=".3em">Resim Yok</text></svg>
+  
+              {% endif %}
+              <div class="card-body">
+                  <span class="badge text-bg-primary">{{ cart_show.Lessons}}</span>
+                  <span class="badge text-bg-secondary">{{ cart_show.Topics_Name}}</span>
+                  <span class="badge rounded-pill text-bg-danger">{{ cart_show.Level}}</span>
+                <p class="card-text">
+                  <span class="badge text-bg-info">Soru</span>
+                  {{ cart_show.Question}}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <a class="btn btn-sm btn-outline-success" href="{% url "question:question_detail" cart_show.exam_items %}">Görüntüle</a>
+                    {% comment %} <button type="button" class="btn btn-sm btn-outline-success">Görüntüle</button> {% endcomment %}
+                   <button type="button" class="btn btn-sm btn-outline-warning BTNALL"  data-user-id="{{cart_show.exam_items}}">Sınava Ekle{{cart_show.exam_items}}</button> 
+                   {% comment %} <button type="button" class="btn btn-sm btn-outline-danger">Sil</button>  {% endcomment %}
+                   {% comment %} <a class="btn btn-sm btn-outline-danger" href="{% url "question:question_delete" user.id %}">
+                    Sil
+                  </a> {% endcomment %}
+  
+                  <a class="btn btn-sm btn-outline-danger cart_delete_Button" href="{% url "question:exam_save_2_cart_delete" cart_show.exam_items %}" data-user-id="{{cart_show.exam_items}}"> Sil</a>
+                  </div>
+                  <small class="text-muted small">{{ cart_show.Created_Date}}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+        
+     
+
+
+      </div>
+    </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      // Add an event listener to the BTNSUBMIT button
+  
+      $('.BTNSUBMIT').click(function () {
+          var inputValue = $('input[name="input"]').val();
+  
+          // Send the input value using Ajax
+          $.ajax({
+              type: 'POST',
+              url: "{% url 'question:save_input_value' %}",
+              // Replace with your actual URL
+              data: {
+                  'input': inputValue
+              },
+              success: function(response) {
+                // Handle the response here
+                $('#messageDiv').text('Sınav kaydedildi!');
+                populateExamTitles();  // Update this with appropriate success message
+              },
+              error: function(error) {
+                console.error('Error:', error);
+              },
+
+          });
+
+          
+      });
+
+      function populateExamTitles() {
+        // Make an AJAX request to get exam titles
+        $.ajax({
+          url: "{% url 'question:get_exam_titles' %}",
+          // Replace with the actual URL of your view
+          type: 'GET',
+          dataType: 'json',
+          success: function(data) {
+            // Populate the dropdown with exam titles
+            var dropdown = $('#InputGroupSelect1');
+             dropdown.empty();
+            // dropdown.append('<option value="">Sınav Adı Seçiniz...</option>');
+            $.each(data.exam_titles, function(index, title) {
+              dropdown.append($('<option></option>').attr('value', title).text(title));
+            });
+          },
+          error: function(error) {
+            console.error('Error fetching exam titles:', error);
+          }
+        });
+      }
+  });
+
+  $(document).ready(function () {
+    $('.BTNALL').on('click', function () {
+      var userId = $(this).data('user-id');
+    var examTitleId = $('#InputGroupSelect1').val();
+
+      $.ajax({
+        type: 'POST',
+        url: '{% url "question:exam_save_2" %}',
+        data: {
+          'user_id': userId,
+          'exam_title_id': examTitleId,
+
+          csrfmiddlewaretoken: '{{ csrf_token }}' // CSRF tokenını ekleyin
+        },
+        success: function (data) {
+          //console.log(data.message);
+          if (data.success) {
+            var message = '' + data.success +' '+ data.exam_title_id;
+
+            displayAlertPopup(message);
+          } else {
+            alert('Eklenemedi');
+          }
+        },
+        error: function (xhr, status, error) {
+          console.log(error);
+        }
+      });
+      function displayAlertPopup(message) {
+        // Create a custom alert popup
+        var popup = $('<div class="custom-popup bg-success text-white text-uppercase">' + message + '<i class="bi bi-check2-circle"></i></div>');
+        
+        // Append the popup to the body
+        $('body').append(popup);
+        
+        // Display the popup
+        popup.fadeIn();
+        
+        // Hide the popup after 2 seconds (you can adjust the duration)
+        setTimeout(function() {
+          popup.fadeOut(function() {
+            // Remove the popup from the DOM after fading out
+            $(this).remove();
+          });
+        }, 2000);
+      }
+    });
+  });
+
+  $(document).ready(function() {
+    // Call the function to populate exam titles dropdown
+    populateExamTitles();
+    
+  });
+  $(document).ready(function(){
+    $(".cart_delete_Button").click(function(){
+      // Uyarı mesajını değiştirmek isterseniz, displayAlertPopup fonksiyonuna istediğiniz mesajı iletebilirsiniz.
+      var message = "Ürün sepetinizden başarıyla silindi. ";
+
+      displayAlertPopup(message);
+    });
+  
+    function displayAlertPopup(message) {
+      // Özel bir uyarı popup'ı oluştur
+      var popup = $('<div class="custom-popup bg-success text-white text-uppercase">' + message + '<i class="bi bi-check2-circle"></i></div>');
+      
+      // Popup'ı body içine ekleyin
+      $('body').append(popup);
+      
+      // Popup'ı görüntüle
+      popup.fadeIn();
+      
+      // 2 saniye sonra popup'ı gizle (süreyi isteğinize göre ayarlayabilirsiniz)
+      setTimeout(function() {
+        popup.fadeOut(function() {
+          // Popup gizlendikten sonra DOM'dan kaldırın
+          $(this).remove();
+        });
+      }, 3000);
+    }
+  });
+  
+  
+</script>
+<style>
+  .custom-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f9f9f9;
+    color: #333;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    max-width: 300px;
+    text-align: center;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .custom-popup button {
+    display: block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .custom-popup button:hover {
+    background-color: #2980b9;
+  }
+  
+</style>

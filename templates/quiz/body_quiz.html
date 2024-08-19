@@ -1,0 +1,630 @@
+<div class="album py-5 mb-5 bg-light">
+  <div class="container">
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+     
+
+
+      <form id="myForm" class="form form-control mt-3"   enctype="multipart/form-data">
+        {% csrf_token %}
+      <div class="row  row-cols-3 row-cols-md-6 g-2">
+      <div class="col-md ">
+        <h5 class="text-center">Sınıf</h5>
+      <div class="dropdown " >
+      <!-- başlangıç-->
+      <select class="form-select form-select-lg mb-3 text-center" aria-label=".form-select-lg example"  id="Classroom" name="Classroom">
+        <option selected>Seçiniz</option>
+        {%  for classroom_name in RequestUser.classrooms.all %}
+        <option value='{{classroom_name.id}}'>{{classroom_name}}</option>
+        {% endfor %}
+      </select>
+      <!-- Bitiş-->
+      </div>
+      </div>
+      
+      
+        <div class="col-md">
+        <h5 class="text-center">Ders</h5>
+
+      <div class="dropdown" >
+      <!-- başlangıç-->
+      <select class="form-select form-select-lg mb-3 text-center" aria-label=".form-select-lg example"  id="Lessons" name="Lessons" disabled>
+         {%  for lesson in RequestUser.lessons.all %}
+        <option value="{{lesson.id}}" disabled selected>{{lesson}}</option>
+        {% endfor %}
+      </select>
+      <!-- Bitiş-->
+      </div>
+      </div>
+      
+        
+        
+              
+        <div class="col-md">
+        <h5 class="text-center">Konu</h5>
+
+      <div class="dropdown" >
+      
+        <select class="form-select form-select-lg mb-3 text-center" aria-label=".form-select-lg example" id="Topics_Name" name="Topics_Name" disabled>
+         
+          {%  for  item in lesson_topics   %}
+          <option  value="{{item.topic_name}}" disabled selected>{{item.topic_name  }}</option>
+          {% endfor %}
+      
+      
+      
+      
+      
+      
+            
+        </select>
+      
+      
+      </div>
+      
+      </div>
+      
+      
+      
+      <div class="col-md">
+        <h5 class="text-center">Soru Tipi</h5>
+
+        <div class="dropdown" >
+        <!-- başlangıç-->
+        <select class="form-select form-select-lg mb-3 text-center" id="Question_Types" aria-label=".form-select-lg example" name='Question_Types'>
+          {% for questyp in Question_Type %}
+          
+          <option value='{{questyp}}'>{{questyp}} </option>
+          {% endfor %}
+        </select>
+        <!-- Bitiş-->
+        </div>
+        </div>
+      
+      
+      
+        <div class="col-md">
+          <h5 class="text-center">Seviye</h5>
+
+          <div class="dropdown" >
+          <!-- başlangıç-->
+          <select class="form-select form-select-lg mb-3 text-center" id="Level" aria-label=".form-select-lg example" name='Level'>
+            {% for level in Level %}
+            
+            <option value='{{level}}'>{{level}} </option>
+            {% endfor %}
+          </select>
+          <!-- Bitiş-->
+          </div>
+          </div>
+        
+              
+          <div class="col-md">
+              <h5 class="text-center">Soru Sayısı</h5>
+    
+              <div class="dropdown" >
+              <!-- başlangıç-->
+              <select class="form-select form-select-lg mb-3 text-center" id="cnt" aria-label=".form-select-lg example" name='cnt'>
+                
+                <option >0 Bulundu</option>
+ 
+              </select>
+              <!-- Bitiş-->
+              </div>
+              </div>
+      
+      
+      
+      </div>
+
+        
+
+
+        <div class="d-grid gap-2">
+          <button class="btn btn-success mb-3 " type="submit" data-bs-toggle="modal" data-bs-target="#exampleModal">Sonuçları Göster</button>
+        </div>
+
+      
+      </form>
+
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade mt-5" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  {% comment %} <div class="modal-dialog  modal-xl justify-content-center"> {% endcomment %}
+  <div class="modal-dialog modal-xl justify-content-center ">
+
+    <form id="myFormSave"     enctype="multipart/form-data">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 text-uppercase " id="exampleModalLabel" ></h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+                
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        
+        <div class="col-md">
+          <div class="input-group ">
+            <span class="input-group-text" id="addon-wrapping">Sınav Adı</span>
+            <input type="text" class="form-control" placeholder="" name="input" aria-label="Sınav adı Giriniz" aria-describedby="addon-wrapping">
+            <button class="btn btn-primary BTNSUBMIT" type="button" id="button-addon2">Kaydet <i class="bi bi-check-circle"></i></button>
+          </div>
+                <!-- Add this div to your HTML file -->
+                <!-- 
+    <div id="messageDiv"></div>
+-->
+
+        </div>
+        <div class="col-md">
+      
+        <div class="input-group">
+          {% comment %} <select class="form-select InputGroupSelect1" id="inputGroupSelect04" aria-label="Example select with button addon">
+            <option selected>Sınav Adı Seçiniz...</option>
+          {% for exam_title in existing_exam_title %}
+              <option value="{{ exam_title.id }}">{{ exam_title.exam_title }}</option>
+          {% endfor %}
+          </select> {% endcomment %}
+          <label class="input-group-text" for="inputGroupSelect01">Sınav Adı Seçiniz</label>
+
+          <select  class="form-select InputGroupSelect1 text-center" id="InputGroupSelect1" aria-label="Example select with button addon">
+            
+
+
+        </select>
+          {% comment %} <button class="btn btn-outline-secondary" type="button">Button</button> {% endcomment %}
+        </div>
+      </div>
+
+
+
+      <div class="col-md">
+        <div class="input-group">
+          <label class="input-group-text" for="InputGroupSelect2">Soru Adet</label>
+          <select class="form-select InputGroupSelect2" id="InputGroupSelect2" aria-label="Example select with button addon">
+           
+            {% for exam_title in Question_Numer %}
+              <option value="{{ exam_title }}" class="text-center">{{ exam_title }}</option>
+            {% endfor %}
+          </select>
+          {% comment %} 
+            <!-- You can uncomment the button if needed -->
+            <!-- <button class="btn btn-outline-secondary" type="button">Button</button> --> 
+          {% endcomment %}
+        </div>
+        
+      </div>
+
+
+
+
+    </div>
+      
+    </div>
+    <div class="modal-footer row-cols-1 row-cols-sm-1  row-cols-md-1 g-1">
+      <button type="button" class="btn btn-success text-uppercase" id="BTNALL">Sınavıma Kaydet</button>
+      <button type="button" class="btn btn-danger" data-bs-dismiss="modal">İPTAL</button>
+
+
+    </div>
+  </div>
+</form>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!-- filteredQuestions -->
+
+<div class="album py-5 mb-5 bg-light">
+  <div class="container">
+      <div class="row row-cols-1 row-cols-sm-2  row-cols-md-2 g-3" id="filteredQuestions">
+          <!-- Filtered questions will be displayed here -->
+      </div>
+  </div>
+</div>
+<!-- filteredQuestions -->
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  {% comment %} $(document).ready(function() {
+    $('#classroomSelect').change(function() {
+      var classroomId = $(this).val();
+      var lessonId = $(this).val();
+      if (classroomId) {
+        $.ajax({
+          url: '{% url "question:get_lessons" %}', // Ajax isteğini işleyecek Django view'inin URL'si
+          data: {
+            'classroom_id': classroomId,
+            'lesson_id': lessonId
+          },
+          dataType: 'json',
+          success: function(data) {
+            $('#lessonSelect').html(data.options);
+            $('#lessonSelect').removeAttr('disabled');
+            $('#topicSelect').html(data.topic_options);
+            $('#topicSelect').removeAttr('disabled');
+          }
+        });
+      } else {
+        $('#lessonSelect').html('<option value="" disabled selected>Ders Seçin</option>');
+        $('#lessonSelect').attr('disabled', 'disabled');
+        $('#topicSelect').html('<option value="" disabled selected>Konu Seçin</option>');
+        $('#topicSelect').attr('disabled', 'disabled');
+      }
+    });
+  }); {% endcomment %}
+
+  $(document).ready(function () {
+    
+    $('#Classroom').change(function () {
+        var classroom_id = $(this).val();
+      $('#Topics_Name').prop('disabled', true);
+
+        if (classroom_id) {
+            $('#Lessons').prop('disabled', false);
+            $('#Lessons').html('<option value="">Seçiniz</option>');
+            $.ajax({
+              url: '{% url "question:get_lessons" %}', // Django URL
+                type: 'GET',
+                data: {'classroom_id': classroom_id},
+                success: function (data) {
+                    $.each(data, function (key, value) {
+                        $('#Lessons').append('<option value="' + key + '">' + value + '</option>');
+                    });
+                }
+            });
+        } else {
+            $('#Lessons').prop('disabled', true);
+        }
+    });
+
+    // Aynı şekilde, ders seçimi için bir olay işleyici ekleyebilirsiniz.
+    // Konu seçimi için de benzer bir işlem yapabilirsiniz.
+
+
+
+$('#Lessons').change(function () {
+      // Ders değiştiğinde konu seçimini sıfırlayın
+      $('#Topics_Name').prop('disabled', true);
+      $('#Topics_Name').html('<option value="" selected>Seçiniz</option>');
+
+      var lesson_id = $(this).val();
+      if (lesson_id) {
+          $.ajax({
+              url: '{% url "question:get_topics" %}', // Django URL
+              type: 'GET',
+              data: {'lesson_id': lesson_id},
+              success: function (data) {
+                  $.each(data, function (key, value) {
+                      $('#Topics_Name').append('<option value="' + key + '">' + value + '</option>');
+                  });
+                  $('#Topics_Name').prop('disabled', false);
+              }
+          });
+      }
+  });
+
+
+
+
+
+  $("#myForm").submit(function(event) {
+    event.preventDefault(); // Prevent page refresh
+
+    var data = $("#myForm").serialize();
+    function updateDropdown(cnt) {
+        // Update the content of the dropdown with id "cnt"
+        $('#cnt').html('<option value="' + cnt + '">' + cnt + " Bulundu" + '</option>');
+    }
+
+ 
+    $.ajax({
+      type: "POST",
+      url: "{% url 'question:quiz' %}",
+      dataType: "json",
+      data: data,
+      success: function(response) {
+          // Update the dropdown with the received cnt value
+          if (response.success) {
+              $('#filteredQuestions').empty();  // Clear previous results
+              if (response.filtere && response.filtere.length > 0) {
+                  updateDropdown(response.cnt);
+  
+                  var questionList = '';
+                  $.each(response.filtere, function(index, question) {
+                      questionList += '<div class="col">';
+                      questionList += '<div class="card shadow-sm">';
+                      // Check if Question_Image exists in the response
+                      if (question.Question_Image) {
+                        var imageURL = '/media/' + question.Question_Image;  // 'MEDIA_URL' yerine doğrudan URL kullanın
+                        questionList += '<div class="card-img-top"><img src="' + imageURL + '" alt="Question Image" style="width: 100%; height: 225px;"></div>';
+                      }
+                      questionList += '<div class="card-body">';
+                      questionList += '<span class="badge text-bg-primary">' + question.Lessons + '</span>';
+                      questionList += ' <span class="badge text-bg-secondary">' + question.Topics_Name + '</span>';
+                      questionList += '<span class="badge rounded-pill text-bg-danger">' + question.Level + '</span>';
+                      questionList += '<p class="card-text">' + question.Question + '</p>';
+                      questionList += '<div class="d-flex justify-content-between align-items-center">';
+                      questionList += '<div class="btn-group">';
+                      // Add "Görüntüle" button
+                      questionList += '<a class="btn btn-sm btn-outline-success" href="/question/question_detail/' + question.id + '">Görüntüle</a>';
+                      // Add "Sepete Ekle" button
+                      //  questionList += '<button class=" btn btn-info saveButton" type="submit"  data-user-id="' + question.id + '">Kaydet</button>';
+                      questionList += '</div>';
+                      questionList += '</div></div></div></div>';
+                      $('#exampleModalLabel').html(question.Classroom + '.Sınıf ' + '<i class="bi bi-arrow-right"></i> ' + question.Lessons + ' <i class="bi bi-arrow-right"></i> ' + question.Question_Types + ' <i class="bi bi-arrow-right"></i> ' + question.Level + ' <i class="bi bi-arrow-right"></i> ' + response.cnt + ' Adet soru bulundu');
+  
+                  });
+  
+                  $('#filteredQuestions').html(questionList);
+              } else {
+                  $('#filteredQuestions').html('<p class="text-danger text-center">Sağlanan filtrelere göre soru bulunamadı.</p>');
+                  updateDropdown(response.cnt);
+              }
+          } else {
+              console.error('Failed to retrieve filtered questions.');
+          }
+      },
+      error: function(xhr, textStatus, errorThrown) {
+          console.error('AJAX request failed: ' + textStatus, errorThrown);
+      }
+  });
+  
+});
+
+$(document).ready(function () {
+  // Add an event listener to the BTNSUBMIT button
+
+  $('.BTNSUBMIT').click(function () {
+      var inputValue = $('input[name="input"]').val();
+
+      // Send the input value using Ajax
+      $.ajax({
+          type: 'POST',
+          url: "{% url 'question:save_input_value' %}",
+          // Replace with your actual URL
+          data: {
+              'input': inputValue
+          },
+          success: function (response) {
+
+              if (response.success) {
+                populateExamTitles();
+
+                var message = 'Sınav Adı Başarıyla Kaydedildi';
+     
+
+                displayAlertPopup(message);
+
+              } else {
+                var message = 'Giriş değeri kaydedilemedi.';
+                displayAlertPopup(message);
+
+              }
+
+          },
+          error: function () {
+             // $('#messageDiv').html('<p style="color: red;">Error occurred during the Ajax request.</p>');
+             var message = 'Error occurred during the request.';
+             displayAlertPopup(message);
+          }
+      });
+      function displayAlertPopup(message) {
+        // Create a custom alert popup
+        var popup = $('<div class="custom-popup bg-success text-white text-uppercase">' + message + '<i class="bi bi-check2-circle"></i></div>');
+        
+        // Append the popup to the body
+        $('body').append(popup);
+        
+        // Display the popup
+        popup.fadeIn();
+        
+        // Hide the popup after 2 seconds (you can adjust the duration)
+        setTimeout(function() {
+          popup.fadeOut(function() {
+            // Remove the popup from the DOM after fading out
+            $(this).remove();
+          });
+        }, 2000);
+      }
+      
+  });
+});
+
+});
+
+
+
+{% comment %} $(document).ready(function() {
+// Function to fetch exam titles
+function fetchExamTitles() {
+  $.ajax({
+    url: "{% url 'question:get_exam_titles' %}",
+    type: 'GET',
+    dataType: 'json',
+    success: function(data) {
+      var dropdown = $('#InputGroupSelect1');
+      dropdown.empty();
+     // dropdown.append('<option value="">Sınav Adı Seçiniz...</option>');
+      $.each(data.exam_titles, function(index, title) {
+        dropdown.append($('<option></option>').attr('value', title).text(title));
+      });
+    },
+    error: function(error) {
+      console.error('Error fetching exam titles:', error);
+    }
+  });
+}
+
+// Initial fetch
+fetchExamTitles();
+
+// Set an interval to fetch exam titles every 5 minutes (300000 milliseconds)
+setInterval(fetchExamTitles, 1000); 
+}); {% endcomment %}
+
+
+
+{% comment %} $(document).ready(function() {
+var lastFetchedData = null; // Variable to store the last fetched data
+
+// Function to fetch exam titles
+function fetchExamTitles() {
+  $.ajax({
+    url: "{% url 'question:get_exam_titles' %}",
+    type: 'GET',
+    dataType: 'json',
+    success: function(data) {
+      // Check if the data has changed
+      if (JSON.stringify(data) === JSON.stringify(lastFetchedData)) {
+        console.log('Data has not changed. Skipping update.');
+        return;  // Data hasn't changed, so skip updating the dropdown
+      }
+
+      var dropdown = $('#InputGroupSelect1');
+      dropdown.empty();
+
+      $.each(data.exam_titles, function(index, title) {
+        dropdown.append($('<option></option>').attr('value', title).text(title));
+      });
+
+      lastFetchedData = data;  // Update the last fetched data
+    },
+    error: function(error) {
+      console.error('Error fetching exam titles:', error);
+    }
+  });
+}
+
+// Initial fetch
+fetchExamTitles();
+
+// Set an interval to fetch exam titles every 5 minutes (300000 milliseconds)
+setInterval(fetchExamTitles, 1000); 
+});
+{% endcomment %}
+function populateExamTitles() {
+// Make an AJAX request to get exam titles
+$.ajax({
+  url: "{% url 'question:get_exam_titles' %}",
+  // Replace with the actual URL of your view
+  type: 'GET',
+  dataType: 'json',
+  success: function(data) {
+    // Populate the dropdown with exam titles
+    var dropdown = $('#InputGroupSelect1');
+     dropdown.empty();
+    // dropdown.append('<option value="">Sınav Adı Seçiniz...</option>');
+    $.each(data.exam_titles, function(index, title) {
+      dropdown.append($('<option></option>').attr('value', title).text(title));
+    });
+  },
+  error: function(error) {
+    console.error('Error fetching exam titles:', error);
+  }
+});
+}
+$(document).ready(function() {
+// Handle click event on the BTNALL button
+$('#BTNALL').click(function() {
+  // Get the selected values from the dropdowns
+  var examTitleId = $('#InputGroupSelect1').val();
+  var questionCount = $('#InputGroupSelect2').val();
+
+  // Create the data object to be sent in the AJAX request
+  var data = {
+    'exam_title_id': examTitleId,
+    'question_count': questionCount,
+    'csrfmiddlewaretoken': '{{ csrf_token }}'
+  };
+
+  // Make the AJAX request to the specified URL in views.py
+  $.ajax({
+    url: '{% url "question:exam_save" %}',  // Update this with your actual URL for saving
+    type: 'POST',
+    data: data,
+    success: function(response) {
+      // Handle the response here
+      //$('#messageDiv').text('Sınav kaydedildi!');  // Update this with appropriate success message
+      var message = examTitleId+'<br>Sınav kaydedildi!';
+     
+
+      displayAlertPopup(message);
+    },
+    error: function(error) {
+      console.error('Error:', error);
+    }
+    
+  });
+  function displayAlertPopup(message) {
+    // Create a custom alert popup
+    var popup = $('<div class="custom-popup bg-success text-white text-uppercase">' + message + '<i class="bi bi-check2-circle"></i></div>');
+    
+    // Append the popup to the body
+    $('body').append(popup);
+    
+    // Display the popup
+    popup.fadeIn();
+    
+    // Hide the popup after 2 seconds (you can adjust the duration)
+    setTimeout(function() {
+      popup.fadeOut(function() {
+        // Remove the popup from the DOM after fading out
+        $(this).remove();
+      });
+    }, 2000);
+  }
+  
+});
+});
+
+
+
+
+$(document).ready(function() {
+// Call the function to populate exam titles dropdown
+populateExamTitles();
+});
+
+  </script>
+  
+  <style>
+    .custom-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #f9f9f9;
+      color: #333;
+      padding: 20px;
+      border: 1px solid #ccc;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      max-width: 300px;
+      text-align: center;
+      font-size: 16px;
+      font-family: Arial, sans-serif;
+       z-index: 9999;
+    }
+    
+    .custom-popup button {
+      display: block;
+      margin-top: 15px;
+      padding: 10px 20px;
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      font-family: Arial, sans-serif;
+    }
+    
+    .custom-popup button:hover {
+      background-color: #2980b9;
+    }
+    
+  </style>

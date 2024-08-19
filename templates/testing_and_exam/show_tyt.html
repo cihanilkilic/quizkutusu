@@ -1,0 +1,339 @@
+
+{% include 'base/layout.html' %}
+{% comment %} {% include 'base/albums.html' %} {% endcomment %}
+{% block body %}
+<style>
+  .custom-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f9f9f9;
+    color: #333;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    max-width: 300px;
+    text-align: center;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+     z-index: 9999;
+  }
+  
+  .custom-popup button {
+    display: block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .custom-popup button:hover {
+    background-color: #2980b9;
+  }
+  
+</style>
+<style>
+    .fixed-div {
+      position: fixed;
+      top: 18%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 50%;
+      background-color: #f8f9fa; /* Opacity ve renk ayarlarını isteğinize göre değiştirebilirsiniz */
+      padding: 10px;
+      z-index: 1000; /* Diğer elemanlardan üstte olmasını sağlar */
+      
+    }
+  </style>
+  <h5 class="fixed-div opacity-75 border border-0 alert alert-danger container text-md-center" id="elapsed_time">
+
+    <form id="kronometreForm">
+      
+      <button type="button"  class="btn btn-danger" id="start">Sınav Süresini Başlat!</button>
+      {% comment %} <button type="button" id="stop">Durdur</button>  {% endcomment %}
+  </form>
+  
+
+  </h5>
+  <div id="custom-container" class="container mt-5 ">
+    <div class="jumbotron text-center ">
+      <h2 class="display-4">Sınav Bilgileri</h2>
+    </div>
+    <div class="exam-info">
+      <h2 class="text-center ">Sınav Detayları</h2>
+      <p class="text-center ">Bu sınavda <strong>{{ cnt }}</strong> adet soru bulunmaktadır.</p>
+      <p class="text-center">Sınavın süresi: <strong>{{ Exam_Time_All.hour_s }}Saat | {{ Exam_Time_All.minute_s }}Dakika</strong></p>
+    </div>
+  </div>
+ <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    #custom-container {
+      max-width: 660px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .jumbotron {
+      background-color: #007bff;
+      color: #fff;
+      border-radius:10px 10px 0px 0px;
+    }
+
+    .exam-info {
+      background-color: #fff;
+      border-radius:0 0 10px 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .exam-info h2 {
+      margin-bottom: 10px;
+    }
+
+    .exam-info p {
+      margin-bottom: 0;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+  </style>
+  <div id="timer"></div>
+
+
+  <form id="myForm" style="display: none;">
+
+  <div class="album py-2 mb-5 bg-light">
+    <div class="container">
+      {% if Exam_Name_Filter %}
+      {% for Exam_Name_Filters in Exam_Name_Filter %}
+  
+      <div class="row row-cols-1 row-cols-md-2 g-0 mb-3">
+        <div class="col-md-6 container">
+  
+          <div class="card ">
+
+            {% if Exam_Name_Filters.Question_Image %}
+            <img src="{{Exam_Name_Filters.Question_Image.url}}" class="card-img-top " />
+            {% comment %} <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg> {% endcomment %}
+            {% else %}
+            {% comment %} <img src="https://mocra.org/wp-content/uploads/2016/07/default.jpg" class="card-img-top" alt="..."> {% endcomment %}
+  
+            {% endif %}
+  
+            <div class="card-body">
+
+              <p class="card-text">
+                {{ Exam_Name_Filters.Question}}
+              </p>
+              <div class="btn-group-vertical container"  role="group" aria-label="Vertical radio toggle button group">
+                <!-- ŞIK BAŞLANGIÇ-->
+                {% if Exam_Name_Filters.Choice_A %}
+                  <div class="mb-2">
+                    <label class="btn btn-success" for="vbtn-radio{{ Exam_Name_Filters.id }}-1">
+                      <input type="radio" name="optionsRadios{{ Exam_Name_Filters.id }}"  value="A" id="{{ Exam_Name_Filters.id }}" autocomplete="off">
+                      A
+                    </label>
+                    <span>{{ Exam_Name_Filters.Choice_A }}</span>
+                  </div>
+                {% endif %}
+                
+                {% if Exam_Name_Filters.Choice_B %}
+                  <div class="mb-2">
+                    <label class="btn btn-success" for="{{ Exam_Name_Filters.id }}">
+                      <input type="radio" name="optionsRadios{{Exam_Name_Filters.id}}" value="B" id="{{ Exam_Name_Filters.id }}" autocomplete="off">
+                      B
+                    </label>
+                    <span>{{ Exam_Name_Filters.Choice_B }}</span>
+                  </div>
+                {% endif %}
+                
+                {% if Exam_Name_Filters.Choice_C %}
+                  <div class="mb-2">
+                    <label class="btn btn-success" for="{{ Exam_Name_Filters.id }}">
+                      <input type="radio" name="optionsRadios{{Exam_Name_Filters.id}}" value="C" id="{{ Exam_Name_Filters.id }}" autocomplete="off">
+                      C
+                    </label>
+                    <span>{{ Exam_Name_Filters.Choice_C }}</span>
+                  </div>
+                {% endif %}
+                
+                {% if Exam_Name_Filters.Choice_D %}
+                  <div class="mb-2">
+                    <label class="btn btn-success" for="{{ Exam_Name_Filters.id }}">
+                      <input type="radio" name="optionsRadios{{Exam_Name_Filters.id}}" value="D" id="{{ Exam_Name_Filters.id }}" autocomplete="off">
+                      D
+                    </label>
+                    <span>{{ Exam_Name_Filters.Choice_D }}</span>
+                  </div>
+                {% endif %}
+                
+                {% if Exam_Name_Filters.Choice_E %}
+                  <div class="mb-2">
+                    <label class="btn btn-success" for="{{ Exam_Name_Filters.id }}">
+                      <input type="radio" name="optionsRadios{{Exam_Name_Filters.id}}" value="E" id="{{ Exam_Name_Filters.id }}" autocomplete="off">
+                      E
+                    </label>
+                    <span>{{ Exam_Name_Filters.Choice_E }}</span>
+                  </div>
+                {% endif %}
+                <div class="mb-2">
+                  <label class="btn btn-danger" for="{{ Exam_Name_Filters.id }}">
+                    <input type="radio" name="optionsRadios{{Exam_Name_Filters.id}}"checked value="N" id="{{ Exam_Name_Filters.id }}" autocomplete="off">
+                    BOŞ BIRAK
+                  </label>
+                  </div>
+                <!-- ŞIK BİTİŞ-->
+                      </div>
+
+              
+  
+            </div>
+            
+          </div>
+        </div>
+      </div>
+        {% endfor %}
+
+
+
+
+
+
+
+        {% else %}
+        
+        
+        
+        
+        {% endif %}
+        <ul class="list-group bg-light list-group-small text-center bg-light" id="goster" >
+          <li class="list-group-item px-4 border border-0  bg-light"><button type="submit"  class="btn btn-outline-primary btn-lg">SINAVI BİTİR</button></li>
+        </ul>
+
+  </div>
+  
+  </div>
+
+</form>
+
+
+
+<br>
+<br>
+<hr>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+   
+document.getElementById("start").addEventListener("click", function() {
+  $('#myForm').show();
+
+  var hour = {{Exam_Time_All.hour_s}};
+  var minute = {{Exam_Time_All.minute_s}};
+  var endTime = new Date();
+  endTime.setHours(endTime.getHours() + hour);
+  endTime.setMinutes(endTime.getMinutes() + minute);
+
+  var x = setInterval(function() {
+      var now = new Date().getTime();
+      var distance = endTime - now;
+
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById("start").innerHTML = "Kalan Süre: " + hours + " Saat "
+      + minutes + " Dakika " + seconds + " Saniye ";
+      if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("start").innerHTML = "Süre Doldu!";
+// başka_bir_dosya.js
+setTimeout(function(){   
+  var examUrl = "{% url 'testing_and_exam:tyt_result_show' %}";
+  window.location.href = examUrl;
+}, 3000);
+
+       // document.getElementById("start").disabled = true;
+    
+        // Execute the code when distance is less than 0
+        //$("#myForm").hide();
+        submitForm(); // Call the function to submit the form data
+    }
+    
+  }, 1000);
+});
+
+$("#myForm").submit(function(e) {
+  e.preventDefault();
+  submitForm(); // Call the function to submit the form data
+});
+
+function submitForm() {
+  var selectedChoices = {};
+  var csrfToken = '{{ csrf_token }}';
+
+  $("input[name^='optionsRadios']").each(function() {
+      var selectedChoice = $(this).is(":checked") ? $(this).val() : null;
+      var questionId = $(this).attr("id");
+
+      if (selectedChoice !== null) {
+          selectedChoices[questionId] = selectedChoice;
+      }
+  });
+
+  $.ajax({
+      url: '{% url 'testing_and_exam:result_tyt' %}',
+      method: 'POST',
+      data: {
+          selectedChoices: JSON.stringify(selectedChoices),
+          elapsed_time: $('#elapsed_time').text(),
+          csrfmiddlewaretoken: csrfToken
+      },
+      success: function (response) {
+          var message = 'SINAVINIZ BAŞARIYLA TESLİM EDİLDİ '+ '<br>' +  'SINAV SONUÇ SAYFASINA YÖNLENDİRİLİYORSUNUZ....';
+          displayAlertPopup(message);
+
+        // başka_bir_dosya.js
+setTimeout(function(){   
+  var examUrl = "{% url 'testing_and_exam:tyt_result_show' %}";
+  window.location.href = examUrl;
+}, 3000);
+
+          
+      },
+      error: function () {
+          var message = 'SINAVINIZ TESLİM EDİLİRKEN BİR HATA OLUŞTU';
+          displayAlertPopup(message);
+      }
+  });
+}
+
+function displayAlertPopup(message) {
+  var popup = $('<div class="custom-popup bg-success text-white text-uppercase">' + message + '<i class="bi bi-check2-circle"></i></div>');
+  $('body').append(popup);
+  popup.fadeIn();
+  setTimeout(function() {
+      popup.fadeOut(function() {
+          $(this).remove();
+      });
+  }, 2000);
+};
+
+</script>
+
+
+
+{% endblock body %}
+{% include 'base/footer.html' %}

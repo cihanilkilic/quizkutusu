@@ -1,0 +1,95 @@
+<div class="container mt-4">
+    <div class="text-center mb-3">
+        <p class="text-muted small">Abonelik planlarınızı buradan güncelleyebilirsiniz.</p>
+    </div>
+    <form action="{% url 'user:user_subscribe_edit' request.user.pk %}" method="post">
+        {% csrf_token %}
+
+        <div class="row row-cols-1 row-cols-md-2 g-3">
+            {% if user_profil_UserSubscribeEdit %}
+                {% for subscribe in user_profil_UserSubscribeEdit %}
+                    <div class="col">
+                        <div class="card border-light shadow-sm h-100">
+                            <div class="card-body p-3">
+                                <h6 class="card-title mb-2">Aylık Ödeme Planı</h6>
+                                <div class="input-group input-group-sm">
+                                    <select class="form-select" name="subscriber1" aria-label="Aylık Ödeme Planı Seçimi">
+                                        <option value="{{ subscribe.subscriber_one }}">{{ subscribe.subscriber_one }} TL</option>
+                                        <option value="60">60 TL</option>
+                                        <option value="70">70 TL</option>
+                                        <option value="80">80 TL</option>
+                                    </select>
+                                    <span class="input-group-text text-success">Güncel: {{ subscribe.subscriber_one }} TL</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card border-light shadow-sm h-100">
+                            <div class="card-body p-3">
+                                <h6 class="card-title mb-2">3 Aylık Planı</h6>
+                                <div class="input-group input-group-sm">
+                                    <select class="form-select" name="subscriber2" aria-label="Üç Aylık Planı Seçimi">
+                                        <option value="{{ subscribe.subscriber_two }}">{{ subscribe.subscriber_two }} TL</option>
+                                        <option value="150">150 TL</option>
+                                        <option value="160">160 TL</option>
+                                        <option value="170">170 TL</option>
+                                    </select>
+                                    <span class="input-group-text text-success">Güncel: {{ subscribe.subscriber_two }} TL</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card border-light shadow-sm h-100">
+                            <div class="card-body p-3">
+                                <h6 class="card-title mb-2">6 Aylık Ödeme Planı</h6>
+                                <div class="input-group input-group-sm">
+                                    <select class="form-select" name="subscriber3" aria-label="6 Aylık Ödeme Planı Seçimi">
+                                        <option value="{{ subscribe.subscriber_three }}">{{ subscribe.subscriber_three }} TL</option>
+                                        <option value="290">290 TL</option>
+                                        <option value="300">300 TL</option>
+                                        <option value="310">310 TL</option>
+                                    </select>
+                                    <span class="input-group-text text-success">Güncel: {{ subscribe.subscriber_three }} TL</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card border-light shadow-sm h-100">
+                            <div class="card-body p-3">
+                                <h6 class="card-title mb-2">12 Aylık Ödeme Planı</h6>
+                                <div class="input-group input-group-sm">
+                                    <select class="form-select" name="subscriber4" aria-label="12 Aylık Ödeme Planı Seçimi">
+                                        <option value="{{ subscribe.subscriber_four }}">{{ subscribe.subscriber_four }} TL</option>
+                                        <option value="590">590 TL</option>
+                                        <option value="600">600 TL</option>
+                                        <option value="610">610 TL</option>
+                                    </select>
+                                    <span class="input-group-text text-success">Güncel: {{ subscribe.subscriber_four }} TL</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12">
+                    <div class="alert alert-warning text-center small" role="alert">
+                        Bu kullanıcı için abonelik bilgisi bulunmamaktadır.
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="text-center mt-3 mb-3">
+            <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-danger btn-sm w-50 me-2" data-bs-dismiss="modal">İptal</button>
+                <button type="submit" class="btn btn-primary btn-sm w-50 ">Kaydet</button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,288 @@
+{% include 'base/layout.html' %}
+
+{% block body %}
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f4f9;
+        color: #333;
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
+    }
+
+    .main-container {
+        max-width: 1000px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .section {
+        margin-bottom: 20px;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 12px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .countdown-timer {
+        font-size: 1.em;
+        font-weight: bold;
+        margin: 20px 0;
+        text-align: center;
+        color: #333;
+    }
+
+    .custom-table-wrapper {
+        overflow-y: auto;
+        max-height: 300px; /* Yüksekliği ayarlayarak dikey kaydırma için sınır belirleyin */
+        -webkit-overflow-scrolling: touch; /* Mobil cihazlarda kaydırmayı daha düzgün hale getirir */
+    }
+
+    .custom-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .custom-table th, .custom-table td {
+        border: 1px solid #ddd;
+        padding: 15px;
+        text-align: center;
+    }
+
+    .custom-table th {
+        background-color: #f2f2f2;
+        color: #0066cc;
+        font-weight: bold;
+    }
+
+    .custom-table tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .table-total {
+        background-color: #e2e2e2;
+        font-weight: bold;
+    }
+
+    @media (max-width: 768px) {
+        .main-container {
+            padding: 15px;
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        .section {
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: none;
+            margin-bottom: 15px;
+        }
+
+        .countdown-timer {
+            font-size: 1.2em;
+        }
+
+        .custom-table th, .custom-table td {
+            padding: 10px;
+        }
+    }
+</style>
+    <div class="main-container">
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="section bg-primary">
+                    <div class="countdown-timer" id="tyt-timer">
+                        <span class="prefix text-white">TYT KALAN SÜRE</span><br>
+                        <span class="text-white" id="tyt-countdown"></span>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col-md-6">
+                <div class="section bg-primary">
+                    <div class="countdown-timer" id="ayt-timer">
+                        <span class="prefix text-white">AYT KALAN SÜRE</span><br>
+                        <span class="text-white" id="ayt-countdown"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="section">
+            <h6 class="page-title text-center">Günlük Soru Çözüm Performansı</h6>
+            <div class="custom-table-wrapper">
+                <table class="custom-table">
+                    <tbody>
+                    <tr class="table-total">
+                        <td colspan="3">
+                            <button type="button" class="btn btn-info position-relative text-white">
+                                Toplam Soru Sayısı
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                  99+
+                                </span>
+                              </button>
+
+                        </td>
+                        <td colspan="3">
+                            <button type="button" class="btn btn-info position-relative text-white">
+                                Net Sayısı
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                  99+
+                                </span>
+                              </button>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Tarih</th>
+                        <th>Ders</th>
+                        <th>Çözülen Soru Adedi</th>
+                        <th>Doğru Sayısı</th>
+                        <th>Yanlış Sayısı</th>
+                    </tr>
+                    <tr>
+                        <td>2024-06-20</td>
+                        <td>Matematik</td>
+                        <td>50</td>
+                        <td class="bg-success text-white">25</td>
+                        <td class="bg-danger text-white">25</td>
+                    </tr>
+                    <tr>
+                        <td>2024-06-20</td>
+                        <td>Fizik</td>
+                        <td>30</td>
+                        <td class="bg-success text-white">25</td>
+                        <td class="bg-danger text-white">25</td>
+                    </tr>
+                    <tr>
+                        <td>2024-06-21</td>
+                        <td>Kimya</td>
+                        <td>40</td>
+                        <td class="bg-success text-white">25</td>
+                        <td class="bg-danger text-white">25</td>
+                    </tr>
+                    <tr>
+                        <td>2024-06-21</td>
+                        <td>Kimya</td>
+                        <td>40</td>
+                        <td class="bg-success text-white">25</td>
+                        <td class="bg-danger text-white">25</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    
+        <div class="section">
+            <h6 class="page-title-large text-center">Deneme Sınavı Performansı</h6>
+            <div class="custom-table-wrapper">
+                <table class="custom-table">
+                    <tbody>
+                    <tr class="table-total">
+                        <td colspan="3">
+
+
+                            <button type="button" class="btn btn-info position-relative text-white">
+                                Toplam Soru Sayısı
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                  99+
+                                </span>
+                              </button>
+
+
+                        </td>
+                        <td colspan="3">
+                            <button type="button" class="btn btn-info position-relative text-white">
+                            Net Sayısı
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                  99+
+                                </span>
+                              </button>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Tarih</th>
+                        <th>Ders</th>
+                        <th>Soru Adedi</th>
+                        <th class="bg-success text-white">Doğru Sayısı</th>
+                        <th class="bg-danger text-white">Yanlış Sayısı</th>
+                    </tr>
+                    <tr>
+                        <td>2024-06-22</td>
+                        <td>Matematik</td>
+                        <td>50</td>
+                        <td class="bg-success text-white">25</td>
+                        <td class="bg-danger text-white">25</td>
+                    </tr>
+                    <tr>
+                        <td>2024-06-22</td>
+                        <td>Fizik</td>
+                        <td>30</td>
+                        <td class="bg-success text-white">25</td>
+                        <td class="bg-danger text-white">25</td>
+                    </tr>
+                    <tr>
+                        <td>2024-06-22</td>
+                        <td>Fizik</td>
+                        <td>30</td>
+                        <td class="bg-success text-white">25</td>
+                        <td class="bg-danger text-white">25</td>
+                    </tr>
+                    <tr>
+                        <td>2024-06-22</td>
+                        <td>Fizik</td>
+                        <td>30</td>
+                        <td class="bg-success text-white">25</td>
+                        <td class="bg-danger text-white">25</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    
+    </div>
+    
+    <!-- Countdown Script -->
+    <script>
+        function countdown(targetDate, countdownElementId) {
+            const countdownElement = document.getElementById(countdownElementId);
+    
+            const timerInterval = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = targetDate - now;
+    
+                if (distance < 0) {
+                    clearInterval(timerInterval);
+                    countdownElement.innerHTML = "Süre Doldu!";
+                    return;
+                }
+    
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+                countdownElement.innerHTML = `${days} Gün ${hours} Saat ${minutes} Dakika ${seconds} Saniye`;
+            }, 1000);
+        }
+    
+        const tytStartDate = new Date(2025, 5, 10, 0, 0, 0).getTime();
+        const aytStartDate = new Date(2025, 5, 11, 0, 0, 0).getTime();
+    
+        countdown(tytStartDate, "tyt-countdown");
+        countdown(aytStartDate, "ayt-countdown");
+    
+    </script>
+    
+    <!-- Footer -->
+    <br>
+    <br>
+    <br>
+    {% include 'base/footer.html' %}
+{% endblock body %}

@@ -1,0 +1,93 @@
+
+
+<style>
+  .card-footer .media {
+    display: flex;
+    align-items: center;
+  }
+
+  .card-footer img {
+    max-width: 40px;
+    margin-right: 15px; /* Adjust the margin as needed */
+  }
+
+  .card-footer .media-body {
+    text-align: right;
+  }
+</style>
+
+<div class="album py-2 mb-5 bg-light">
+  <div class="container">
+    {% if posts %}
+    {% for post in posts %}
+
+    <div class="row row-cols-1 row-cols-md-2 g-0 mb-3">
+      <div class="col-md-6 container">
+
+        <div class="card ">
+          <div class="card-footer border border-1 rounded-top">
+            <div class="media justify-content-center">
+
+              {% if post.author_avatar  %}
+              <img class="mr-3 rounded-circle" src="{{ post.author_avatar  }}">
+              {% else %}
+              <img class="mr-3 rounded-circle" src="https://static.vecteezy.com/system/resources/previews/026/219/600/non_2x/account-icon-symbol-design-illustration-vector.jpg?format=auto&version=1688931977&width=80&height=80">
+              {% endif %}
+
+
+
+              <div class="media-body">
+                <h6 class="text-uppercase">
+
+                  <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{% url "user:User_Profil" post.author.pk %}">{{ post.author_first_name }} {{ post.author_last_name }}</a>
+                </h6>
+               
+
+
+              </div>
+            </div>
+          </div>
+
+          {% if post.Question_Image %}
+          <img src="{{post.Question_Image.url}}" class="card-img-top rounded-0" />
+          {% comment %} <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg> {% endcomment %}
+					{% else %}
+					{% comment %} <img src="https://mocra.org/wp-content/uploads/2016/07/default.jpg" class="card-img-top" alt="..."> {% endcomment %}
+          <svg class="bd-placeholder-img card-img-top rounded-0" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="40%" y="50%" fill="#eceeef" dy=".3em">Resim Yok</text></svg> 
+
+					{% endif %}
+
+          <div class="card-body">
+            <h5 class="card-title">
+              <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="#">{{post.Lessons}}</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">{{post.Topics_Name}}</li>
+                </ol>
+              </nav>
+            </h5>
+            <p class="card-text">
+              {{ post.Question}}
+            </p>
+
+            <ul class="list-group list-group-light list-group-small text-center">
+              <li class="list-group-item px-4 border border-0"><a class="btn btn-sm btn-outline-primary" href="{% url "question:question_detail" post.id %}">Görüntüle</a></li>
+              <li class="list-group-item px-4 border border-0"><small class="text-muted small">{{ post.Created_Date}}</small></li>
+            </ul>
+            
+
+          </div>
+          
+        </div>
+      </div>
+    </div>
+      {% endfor %}
+      {% else %}
+      
+      
+      
+      
+      {% endif %}
+
+</div>
+</div>

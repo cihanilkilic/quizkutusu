@@ -1,0 +1,176 @@
+{% load static %}
+
+
+
+    <div class="justify-content-center">
+        <div class="modal-header ">
+            <h5 class="modal-title text-center">Ödeme Ekranı</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+        <div class="col-md-12">
+
+            <form accept-charset="UTF-8" action="/" class="require-validation form-container" data-cc-on-file="false" data-stripe-publishable-key="pk_bQQaTxnaZlzv4FnnuZ28LFHccVSaj" id="payment-form" method="post">
+                <input name="utf8" type="hidden" value="✓" />
+                <input name="_method" type="hidden" value="PUT" />
+                <input name="authenticity_token" type="hidden" value="qLZ9cScer7ZxqulsUWazw4x3cSEzv899SP/7ThPCOV8=" />
+
+                <div class='form-row'>
+                    <div class='col-md-12 form-group required'>
+                        <label class='control-label'>Ad Soyad</label>
+                        <input class='form-control' size='4' type='text' placeholder='Cihan İlkılıç'>
+                    </div>
+                </div>
+                <div class='form-row'>
+                    <div class='col-md-12 form-group required'>
+                        <label class='control-label'>Kart Numarası</label>
+                        <input class='form-control' size='4' minlength="16" maxlength="16" type='number' placeholder='XXXX XXXX XXXX XXXX'>
+                    </div>
+                </div>
+
+                <div class='form-row'>
+                    <div class='col-md-12 form-group cvc required'>
+                        <label class='control-label'>CVC</label>
+                        <input autocomplete='off' class='form-control card-cvc' placeholder='1999' size='4' minlength="4" maxlength="4" type='number'>
+                    </div>
+                    <div class='col-md-12 form-group expiration required'>
+                        <label class='control-label'>Ay</label>
+                        <select class='form-control card-expiry-month'>
+                            <option value='' disabled selected>Ay</option>
+                            <option value='01'>01 - Ocak</option>
+                            <option value='02'>02 - Şubat</option>
+                            <option value='03'>03 - Mart</option>
+                            <option value='04'>04 - Nisan</option>
+                            <option value='05'>05 - Mayıs</option>
+                            <option value='06'>06 - Haziran</option>
+                            <option value='07'>07 - Temmuz</option>
+                            <option value='08'>08 - Ağustos</option>
+                            <option value='09'>09 - Eylül</option>
+                            <option value='10'>10 - Ekim</option>
+                            <option value='11'>11 - Kasım</option>
+                            <option value='12'>12 - Aralık</option>
+                        </select>
+                    </div>
+                    <div class='col-md-12 form-group expiration required'>
+                        <label class='control-label'>Yıl</label>
+                        <select class='form-control card-expiry-year'>
+                            <option value='' disabled selected>Yıl</option>
+                            <option value='2024'>2024</option>
+                            <option value='2025'>2025</option>
+                            <option value='2026'>2026</option>
+                            <option value='2027'>2027</option>
+                            <option value='2028'>2028</option>
+                            <option value='2029'>2029</option>
+                            <option value='2030'>2030</option>
+                        </select>
+                    </div>
+                </div>
+
+                {% comment %} <div class='form-row'>
+                    <div class='col-md-12'>
+                        <div class='form-control total'>
+                            Total:
+                            <span class='amount'>300 TL</span>
+                        </div>
+                    </div>
+                </div> {% endcomment %}
+                {% if user_profil_UserSubscribeEdit %}
+                {% for subscribe in user_profil_UserSubscribeEdit %}
+                <div class='form-row'>
+                    <div class='col-md-12 form-group required'>
+                        <label  class='control-label text-danger' id='total-amount'></label>
+                        <select id='subscription-plan' class='form-control card-expiry-year'>
+                            <option value='' disabled selected>Aylık Ödeme Planı Seçiniz</option>
+                            <option value="{{ subscribe.subscriber_one }}">{{ subscribe.subscriber_one }} TL (Aylık Ödeme)</option>
+                            <option value="{{ subscribe.subscriber_two }}">{{ subscribe.subscriber_two }} TL (3 Aylık Ödeme)</option>
+                            <option value="{{ subscribe.subscriber_three }}">{{ subscribe.subscriber_three }} TL (6 Aylık Ödeme)</option>
+                            <option value="{{ subscribe.subscriber_four }}">{{ subscribe.subscriber_four }} TL (12 Aylık Ödeme)</option>
+                        </select>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                    <p>Bu kullanıcı için abonelik bilgisi bulunmamaktadır.</p>
+                {% endif %}
+                <div class='form-row'>
+                    <div class='col-md-12 form-group'>
+                        <button class='form-control btn btn-primary submit-button' type='submit'>Ödemeyi Gerçekleştir »</button>
+                    </div>
+                </div>
+
+                <div class='form-row'>
+                    <div class='col-md-12 error form-group hide'>
+                        <div class='alert alert-danger'>
+                            Lütfen hataları düzeltip tekrar deneyin.
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        // Sayfa yüklendiğinde label metnini '0 TL' olarak ayarla
+        $('#total-amount').text('Tutar: 0 TL');
+        
+        $('#subscription-plan').change(function() {
+            var selectedValue = $(this).val();
+            if (selectedValue) {
+                var text = 'Tutar: ' + selectedValue + ' TL';
+                $('#total-amount').text(text);
+            }
+        });
+    });
+</script>
+    
+
+<style>
+    .form-container {
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 20px;
+
+    }
+
+    .form-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+    .control-label {
+        flex: 0 0 120px; /* Etiketlerin sabit genişliği */
+        text-align: left; /* Sol hizalama */
+        margin-right: 10px; /* Giriş alanı ile arasındaki boşluk */
+    }
+    .form-control {
+        flex: 1; /* Giriş alanlarının geri kalan alanı kaplaması */
+    }
+    .total {
+        font-size: 1.5rem;
+        padding: 10px 15px;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        background-color: #17a2b8;
+        color: white;
+        border-radius: 5px;
+    }
+    .submit-button {
+        font-size: 1.25rem;
+        padding: 10px 0;
+        border-radius: 5px;
+    }
+    .alert {
+        display: none;
+        width: 100%;
+        font-size: 1.25rem;
+
+        text-align: center;
+    }
+    select.form-control {
+        width: 100%;
+        padding: 5px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+    }
+</style>
